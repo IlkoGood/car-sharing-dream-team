@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private  final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public User save(User user) {

@@ -1,6 +1,6 @@
 package com.carsharing.security;
 
-import com.carsharing.dto.User.LoginDto;
+import com.carsharing.dto.user.LoginDto;
 import com.carsharing.model.User;
 
 public interface AuthService {

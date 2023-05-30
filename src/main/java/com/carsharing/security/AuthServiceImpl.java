@@ -1,8 +1,7 @@
 package com.carsharing.security;
 
-import com.carsharing.dto.User.LoginDto;
+import com.carsharing.dto.user.LoginDto;
 import com.carsharing.model.User;
-import com.carsharing.repository.UserRepository;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,9 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Service
 
@@ -38,7 +34,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String login(LoginDto loginDto) {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(), loginDto.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
