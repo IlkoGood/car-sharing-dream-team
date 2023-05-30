@@ -1,9 +1,9 @@
-package com.carsharing.dto.User;
+package com.carsharing.dto.user;
 
 import lombok.Data;
 
 @Data
-public class UserLoginDto {
+public class LoginDto {
     private String email;
     private String password;
 }
