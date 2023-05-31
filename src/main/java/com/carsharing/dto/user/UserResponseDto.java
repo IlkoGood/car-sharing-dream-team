@@ -1,4 +1,4 @@
-package com.carsharing.dto.User;
+package com.carsharing.dto.user;
 
 import lombok.Data;
 

@@ -5,7 +5,9 @@ import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.CarRequestDto;
 import com.carsharing.dto.response.CarResponseDto;
 import com.carsharing.model.Car;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CarMapper implements ResponseDtoMapper<CarResponseDto, Car>,
         RequestDtoMapper<CarRequestDto, Car> {
     @Override
@@ -26,8 +28,8 @@ public class CarMapper implements ResponseDtoMapper<CarResponseDto, Car>,
         carResponseDto.setModel(car.getModel());
         carResponseDto.setBrand(car.getBrand());
         carResponseDto.setType(car.getType());
-        car.setInventory(car.getInventory());
-        car.setDailyFee(car.getDailyFee());
+        carResponseDto.setInventory(car.getInventory());
+        carResponseDto.setDailyFee(car.getDailyFee());
         return carResponseDto;
     }
 }
