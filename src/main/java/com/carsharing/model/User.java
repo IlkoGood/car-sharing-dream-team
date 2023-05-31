@@ -28,8 +28,6 @@ public class User {
     private String lastName;
     @ToString.Exclude
     private String password;
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @Enumerated(EnumType.STRING)
     private Role role;
 
