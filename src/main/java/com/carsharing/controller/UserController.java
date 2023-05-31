@@ -1,13 +1,14 @@
 package com.carsharing.controller;
 
 import com.carsharing.dto.mapper.impl.UserMapper;
-import com.carsharing.dto.user.UserRequestDto;
-import com.carsharing.dto.user.UserResponseDto;
+import com.carsharing.dto.request.UserRequestDto;
+import com.carsharing.dto.response.UserResponseDto;
 import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class UserController {
 
     @PatchMapping("/me")
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
-    public UserResponseDto updateUser(@RequestBody UserRequestDto requestDto,
+    public UserResponseDto updateUser(@RequestBody @Valid UserRequestDto requestDto,
                                       HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         String token = authorizationHeader.substring("Bearer ".length());
