@@ -1,48 +1,30 @@
 package com.carsharing.security;
 
-import com.carsharing.dto.user.LoginDto;
+import com.carsharing.dto.user.UserLoginDto;
 import com.carsharing.model.User;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
-
-    private AuthenticationManager authenticationManager;
-    private UserService userService;
-    private PasswordEncoder passwordEncoder;
-    private JwtTokenProvider jwtTokenProvider;
-
-    public AuthServiceImpl(
-            JwtTokenProvider jwtTokenProvider,
-            UserService userService,
-            PasswordEncoder passwordEncoder,
-            AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Override
-    public String login(LoginDto loginDto) {
-
+    public String login(UserLoginDto loginDto) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getEmail(), loginDto.getPassword()));
-
+                        loginDto.getEmail(), loginDto.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        String token = jwtTokenProvider.generateToken(authentication);
-
-        return token;
+        return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override
