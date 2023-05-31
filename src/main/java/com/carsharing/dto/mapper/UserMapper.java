@@ -1,4 +1,4 @@
-package com.carsharing.service.mapper;
+package com.carsharing.dto.mapper;
 
 import com.carsharing.dto.user.UserResponseDto;
 import com.carsharing.model.User;
