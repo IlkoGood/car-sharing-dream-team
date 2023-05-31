@@ -1,7 +1,7 @@
 package com.carsharing.dto.mapper.impl;
 
 import com.carsharing.dto.mapper.ResponseDtoMapper;
-import com.carsharing.dto.user.UserResponseDto;
+import com.carsharing.dto.response.UserResponseDto;
 import com.carsharing.model.User;
 import org.springframework.stereotype.Component;
 
