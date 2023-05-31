@@ -1,8 +1,8 @@
 package com.carsharing.dto.request;
 
+import java.time.LocalDateTime;
 import lombok.Data;
 
-import java.time.LocalDateTime;
 @Data
 public class RentalRequestDto {
     private LocalDateTime rentalDate;
