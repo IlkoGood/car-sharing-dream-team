@@ -1,7 +1,6 @@
 package com.carsharing.service;
 
 import com.carsharing.model.Payment;
-import com.carsharing.model.User;
 import java.util.List;
 
 public interface PaymentService {

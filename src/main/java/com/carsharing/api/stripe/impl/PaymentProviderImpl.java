@@ -31,7 +31,8 @@ public class PaymentProviderImpl implements PaymentProvider {
                                                 .setCurrency("usd")
                                                 .setUnitAmount(amount)
                                                 .setProductData(
-                                                        SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                        SessionCreateParams.LineItem
+                                                                .PriceData.ProductData.builder()
                                                                 .setName(type.name())
                                                                 .build()
                                                 )

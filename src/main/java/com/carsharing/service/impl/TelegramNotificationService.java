@@ -15,13 +15,15 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 public class TelegramNotificationService implements NotificationService {
     private final TelegramCarSharingBot telegramCarSharingBot;
     private final UserService userService;
+
     @Override
     public void sendNotification(Rental rental) {
         SendMessage sendMessage = new SendMessage();
         User userById = userService.findById(rental.getUser().getId());
         sendMessage.setChatId(String.valueOf(userById.getChatId()));
         String text = "You have successfully rented a car: "
-                + rental.getCar().getModel() + " day of rental date: " + rental.getRentalDate().toString()
+                + rental.getCar().getModel()
+                + " day of rental date: " + rental.getRentalDate().toString()
                 + " Your daily fee: " + rental.getCar().getDailyFee()
                 + " You should return car " + rental.getReturnDate().toString();
         sendMessage.setText(text);

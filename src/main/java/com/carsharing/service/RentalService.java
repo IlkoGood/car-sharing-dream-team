@@ -1,7 +1,6 @@
 package com.carsharing.service;
 
 import com.carsharing.model.Rental;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RentalService {
