@@ -9,11 +9,12 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Component
 public class BotInitializer {
-   private final TelegramCarSharingBot telegramBot;
+    private final TelegramCarSharingBot telegramBot;
 
     public BotInitializer(TelegramCarSharingBot telegramBot) {
         this.telegramBot = telegramBot;
     }
+
     @PostConstruct
     public void init() throws TelegramApiException {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);

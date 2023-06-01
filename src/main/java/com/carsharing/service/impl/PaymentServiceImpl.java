@@ -1,7 +1,6 @@
 package com.carsharing.service.impl;
 
 import com.carsharing.model.Payment;
-import com.carsharing.model.User;
 import com.carsharing.repository.PaymentRepository;
 import com.carsharing.service.PaymentService;
 import java.util.List;
