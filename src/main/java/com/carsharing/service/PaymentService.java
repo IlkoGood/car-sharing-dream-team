@@ -14,5 +14,5 @@ public interface PaymentService {
 
     Payment getById(Long id);
 
-    List<Payment> getByUser(User user);
+    List<Payment> getByUserId(Long userId);
 }

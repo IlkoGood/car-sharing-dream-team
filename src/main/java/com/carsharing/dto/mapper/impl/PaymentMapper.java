@@ -5,8 +5,7 @@ import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.PaymentRequestDto;
 import com.carsharing.dto.response.PaymentResponseDto;
 import com.carsharing.model.Payment;
-import com.carsharing.repository.RentalServiceRepository;
-import java.util.NoSuchElementException;
+import com.carsharing.service.RentalService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Payment>,
         RequestDtoMapper<PaymentRequestDto, Payment> {
-    private final RentalServiceRepository rentalServiceRepository;
+    private final RentalService rentalService;
 
     @Override
     public PaymentResponseDto mapToDto(Payment payment) {
@@ -32,10 +31,7 @@ public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Paym
     @Override
     public Payment mapToModel(PaymentRequestDto dto) {
         Payment payment = new Payment();
-        Long rentalId = dto.getRental();
-        payment.setRental(rentalServiceRepository.findById(rentalId).orElseThrow(
-                () -> new NoSuchElementException("Can`t find rental by id " + rentalId)
-        ));
+        payment.setRental(rentalService.getById(dto.getRental()));
         payment.setType(dto.getType());
         return payment;
     }
