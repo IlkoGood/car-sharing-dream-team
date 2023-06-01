@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS users
     amount DECIMAL NOT NULL
 );
 
---rollback DROP TABLE users;
+--rollback DROP TABLE payment;
