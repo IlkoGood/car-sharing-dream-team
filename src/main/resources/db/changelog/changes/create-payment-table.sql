@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset <nk.voloshchuk>:<create-users-table>
+--changeset <nk.voloshchuk>:<create-payment-table>
 CREATE TABLE IF NOT EXISTS users
 (
     id BIGINT NOT NULL AUTO_INCREMENT,

@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users
     last_name varchar(255),
     password varchar(255) not null,
     role varchar(255) not null,
+    chat_id BIGINT,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 
