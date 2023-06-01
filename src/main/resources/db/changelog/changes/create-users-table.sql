@@ -1,5 +1,6 @@
 --liquibase formatted sql
 --changeset <ilkogood>:<create-users-table>
+
 CREATE TABLE IF NOT EXISTS users
 (
     id bigint auto_increment,
@@ -7,7 +8,7 @@ CREATE TABLE IF NOT EXISTS users
     first_name varchar(255),
     last_name varchar(255),
     password varchar(255) not null,
-    role varchar(255) not null,
+    `role` ENUM('MANAGER', 'COSTUMER') NOT NULL,
     CONSTRAINT users_pk PRIMARY KEY (id)
 );
 

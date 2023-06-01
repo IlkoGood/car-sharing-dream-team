@@ -1,3 +1,11 @@
 databaseChangeLog:
   - include:
+      file: /db/changelog/changes/create-cars-table.sql
+  - include:
       file: /db/changelog/changes/create-users-table.sql
+  - include:
+      file: /db/changelog/changes/create-rentals-table.sql
+  - include:
+      file: /db/changelog/changes/create-payments-table.sql
+
+
