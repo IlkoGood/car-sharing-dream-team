@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS users
     status ENUM('PENDING', 'PAID') NOT NULL,
     type ENUM('PAYMENT', 'FINE') NOT NULL,
     rental_id BIGINT NOT NULL,
-    session_url LONGTEXT,
+    session_url VARCHAR(500),
     session_id BIGINT NOT NULL,
     amount DECIMAL NOT NULL
 );
