@@ -4,26 +4,27 @@ import com.carsharing.dto.mapper.RequestDtoMapper;
 import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.RentalRequestDto;
 import com.carsharing.dto.response.RentalResponseDto;
-import com.carsharing.model.Car;
 import com.carsharing.model.Rental;
-import com.carsharing.model.User;
+import com.carsharing.service.CarService;
+import com.carsharing.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
+@AllArgsConstructor
 @Component
 public class RentalMapper implements RequestDtoMapper<RentalRequestDto, Rental>,
         ResponseDtoMapper<RentalResponseDto, Rental> {
+    private final UserService userService;
+    private final CarService carService;
+
     @Override
     public Rental mapToModel(RentalRequestDto dto) {
         Rental rental = new Rental();
         rental.setRentalDate(dto.getRentalDate());
         rental.setReturnDate(dto.getReturnDate());
         rental.setActualReturnDate(dto.getActualReturnDate());
-        User user = new User();
-        user.setId(dto.getUserId());
-        rental.setUser(user);
-        Car car = new Car();
-        car.setId(dto.getCarId());
-        rental.setCar(car);
+        rental.setUser(userService.findById(dto.getUserId()));
+        rental.setCar(carService.getById(dto.getCarId()));
         return rental;
     }
 

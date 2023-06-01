@@ -7,9 +7,7 @@ import com.carsharing.dto.request.PaymentRequestDto;
 import com.carsharing.dto.response.PaymentResponseDto;
 import com.carsharing.model.Payment;
 import com.carsharing.model.Rental;
-import com.carsharing.repository.RentalServiceRepository;
 import com.carsharing.service.PaymentService;
-import com.carsharing.service.UserService;
 import com.stripe.model.checkout.Session;
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,11 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("payments")
 public class PaymentController {
     private final PaymentProvider paymentProvider;
-    private final RentalServiceRepository rentalServiceRepository;
     private final PaymentService paymentService;
-    private final UserService userService;
-    private final ResponseDtoMapper<PaymentResponseDto, Payment> responseDtoMapper;
     private final RequestDtoMapper<PaymentRequestDto, Payment> requestDtoMapper;
+    private final ResponseDtoMapper<PaymentResponseDto, Payment> responseDtoMapper;
+
 
     @PostMapping
     public PaymentResponseDto createPaymentSession(@RequestBody PaymentRequestDto dto) {
@@ -59,7 +56,7 @@ public class PaymentController {
     @GetMapping
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public List<PaymentResponseDto> getByUserId(@RequestParam Long userId) {
-        return paymentService.getByUser(userService.findById(userId)).stream()
+        return paymentService.getByUserId(userId).stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
