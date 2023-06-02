@@ -6,6 +6,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import java.math.BigDecimal;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,12 +17,13 @@ public class PaymentProviderImpl implements PaymentProvider {
     @Value("${stripe.domen}")
     private String domen;
 
-    public Session createPaymentSession(Long amount, Payment.Type type) {
+    public Session createPaymentSession(BigDecimal payment, BigDecimal fine, Payment paymentObject) {
         Stripe.apiKey = secretKey;
-        SessionCreateParams params = SessionCreateParams.builder()
+        Long paymentId = paymentObject.getId();
+        SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
-                .setSuccessUrl(domen + "/payments/success/")
-                .setCancelUrl(domen + "/payments/cancel/")
+                .setSuccessUrl(domen + "/payments/success/" + paymentId)
+                .setCancelUrl(domen + "/payments/cancel/" + paymentId)
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
@@ -29,17 +31,35 @@ public class PaymentProviderImpl implements PaymentProvider {
                                 .setPriceData(
                                         SessionCreateParams.LineItem.PriceData.builder()
                                                 .setCurrency("usd")
-                                                .setUnitAmount(amount)
+                                                .setUnitAmount((long) (payment.doubleValue() * 100))
                                                 .setProductData(
                                                         SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                .setName(type.name())
+                                                                .setName(paymentObject.getType().name())
                                                                 .build()
                                                 )
                                                 .build()
                                 )
                                 .build()
-                )
-                .build();
+                );
+        if (fine.doubleValue() > 0) {
+            paramsBuilder.addLineItem(
+                    SessionCreateParams.LineItem.builder()
+                            .setQuantity(1L)
+                            .setPriceData(
+                                    SessionCreateParams.LineItem.PriceData.builder()
+                                            .setCurrency("usd")
+                                            .setUnitAmount((long) (fine.doubleValue() * 100))
+                                            .setProductData(
+                                                    SessionCreateParams.LineItem.PriceData.ProductData.builder()
+                                                            .setName(Payment.Type.FINE.name())
+                                                            .build()
+                                            )
+                                            .build()
+                            )
+                            .build()
+            );
+        }
+        SessionCreateParams params = paramsBuilder.build();
         try {
             return Session.create(params);
         } catch (StripeException e) {
