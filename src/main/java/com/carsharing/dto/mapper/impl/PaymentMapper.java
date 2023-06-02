@@ -31,8 +31,9 @@ public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Paym
     @Override
     public Payment mapToModel(PaymentRequestDto dto) {
         Payment payment = new Payment();
-        payment.setRental(rentalService.getById(dto.getRental()));
+        payment.setStatus(Payment.Status.PENDING);
         payment.setType(dto.getType());
+        payment.setRental(rentalService.getById(dto.getRental()));
         return payment;
     }
 }
