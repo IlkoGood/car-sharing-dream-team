@@ -38,6 +38,7 @@ public class PaymentController {
     private final RequestDtoMapper<PaymentRequestDto, Payment> requestDtoMapper;
     private final ResponseDtoMapper<PaymentResponseDto, Payment> responseDtoMapper;
 
+
     @PostMapping
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public PaymentResponseDto createPaymentSession(@RequestBody PaymentRequestDto dto) {
