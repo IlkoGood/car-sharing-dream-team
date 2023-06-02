@@ -37,12 +37,11 @@ public class RentalController {
     public RentalResponseDto createRental(@RequestBody RentalRequestDto requestDto) {
         Car car = carService.getById(requestDto.getCarId());
         if (car.getInventory() < 1) {
-            return new RentalResponseDto();
+            throw new RuntimeException("You don`t have cars for rental [" + car + ']');
         }
         car.setInventory(car.getInventory() - 1);
         carService.update(car);
-        return responseDtoMapper
-                .mapToDto(rentalService.save(requestDtoMapper.mapToModel(requestDto)));
+        return responseDtoMapper.mapToDto(rentalService.save(requestDtoMapper.mapToModel(requestDto)));
     }
 
     @GetMapping

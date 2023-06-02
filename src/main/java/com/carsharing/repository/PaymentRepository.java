@@ -10,7 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
     List<Payment> findPaymentsByRental_UserId(Long userId);
 
-    //List<Payment> findPaymentsByRental_User(User user);
-  
     Optional<Payment> findById(Long id);
 }
