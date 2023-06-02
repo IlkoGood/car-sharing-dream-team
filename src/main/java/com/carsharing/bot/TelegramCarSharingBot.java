@@ -2,6 +2,7 @@ package com.carsharing.bot;
 
 import com.carsharing.model.User;
 import com.carsharing.service.UserService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,11 +10,10 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TelegramCarSharingBot extends TelegramLongPollingBot  {
+public class TelegramCarSharingBot extends TelegramLongPollingBot {
     @Value("${bot.username}")
     private String botUserName;
     @Value("${bot.token}")
@@ -22,7 +22,7 @@ public class TelegramCarSharingBot extends TelegramLongPollingBot  {
 
     @Override
     public String getBotUsername() {
-       return botUserName;
+        return botUserName;
     }
 
     @Override
@@ -39,18 +39,18 @@ public class TelegramCarSharingBot extends TelegramLongPollingBot  {
                 sendStartMessage(chatId, update.getMessage().getChat().getFirstName());
                 return;
             }
-                Optional<User> user = userService.findByEmail(messageText);
-                if (user.isPresent()) {
-                    User foundUser = user.get();
-                    foundUser.setChatId(chatId);
-                    userService.save(foundUser);
-                    sendMessage(chatId, "Success");
-                } else {
-                    String answer = "User with this email doesn't exist, try again";
-                    sendMessage(chatId, answer);
-                }
+            Optional<User> user = userService.findByEmail(messageText);
+            if (user.isPresent()) {
+                User foundUser = user.get();
+                foundUser.setChatId(chatId);
+                userService.save(foundUser);
+                sendMessage(chatId, "Success");
+            } else {
+                String answer = "User with this email doesn't exist, try again";
+                sendMessage(chatId, answer);
             }
         }
+    }
 
     private void sendStartMessage(Long chatId, String name) {
         String answer = "Hi, " + name + "," + " Please enter your email";

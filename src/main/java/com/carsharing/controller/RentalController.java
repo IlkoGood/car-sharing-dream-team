@@ -58,7 +58,7 @@ public class RentalController {
             rentals.addAll(rentalService.getAllByUserId(userId));
         }
         if (isActive != null) {
-            rentals.addAll(rentalService.getActive(isActive)) ;
+            rentals.addAll(rentalService.getActive(isActive));
         }
         return rentals.stream()
                 .map(responseDtoMapper::mapToDto)
