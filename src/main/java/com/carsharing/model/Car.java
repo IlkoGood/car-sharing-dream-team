@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -20,7 +22,12 @@ public class Car {
     private Long id;
     private String model;
     private String brand;
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     @Enumerated(EnumType.STRING)
+    @Column(name = "type",
+            columnDefinition = "ENUM('HATCHBACK','SEDAN','SUV','UNIVERSAL')",
+            nullable = false)
     private Type type;
     private int inventory;
     @Column(name = "daily_fee")

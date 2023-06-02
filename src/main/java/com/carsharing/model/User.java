@@ -1,5 +1,6 @@
 package com.carsharing.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,6 +24,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
     private Long id;
+    @Column(name = "email", unique = true)
     private String email;
     private String firstName;
     private String lastName;
@@ -31,6 +33,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", columnDefinition = "ENUM('MANAGER', 'COSTUMER')", nullable = false)
     private Role role;
 
     public enum Role {
