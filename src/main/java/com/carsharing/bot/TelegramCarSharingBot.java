@@ -44,7 +44,7 @@ public class TelegramCarSharingBot extends TelegramLongPollingBot {
                 User foundUser = user.get();
                 foundUser.setChatId(chatId);
                 userService.save(foundUser);
-                sendMessage(chatId, "Success");
+                sendMessage(chatId, "User registration successful! Welcome");
             } else {
                 String answer = "User with this email doesn't exist, try again";
                 sendMessage(chatId, answer);
@@ -64,7 +64,7 @@ public class TelegramCarSharingBot extends TelegramLongPollingBot {
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
-            throw new RuntimeException("Can't send message ");
+            throw new RuntimeException("Can't send message", e);
         }
     }
 }
