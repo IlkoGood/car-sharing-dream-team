@@ -55,10 +55,10 @@ public class PaymentController {
         if (daysActual > daysRental) {
             moneyToFine = dailyFee.multiply(BigDecimal.valueOf((daysActual - daysRental) * FINE_MULTIPLIER));
         }
-        payment.setAmount(moneyToPay);
+        payment.setAmount(moneyToPay.add(moneyToFine));
         payment = paymentService.save(payment);
         Session session = paymentProvider.createPaymentSession(
-                payment.getAmount(),
+                moneyToPay,
                 moneyToFine,
                 payment
         );

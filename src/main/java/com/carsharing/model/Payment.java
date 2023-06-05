@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
 import lombok.Data;
 
@@ -27,7 +28,7 @@ public class Payment {
     @OneToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
-    @Column(name = "session_url")
+    @Column(name = "session_url", length = 500)
     private String sessionUrl;
     @Column(name = "session_id")
     private String sessionId;
