@@ -4,4 +4,6 @@ import com.carsharing.model.Rental;
 
 public interface NotificationService {
     void sendNotification(Rental rental);
+
+    void generateMessageToAdministrators(String message);
 }
