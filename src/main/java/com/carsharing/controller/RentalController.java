@@ -41,7 +41,8 @@ public class RentalController {
         }
         car.setInventory(car.getInventory() - 1);
         carService.update(car);
-        return responseDtoMapper.mapToDto(rentalService.save(requestDtoMapper.mapToModel(requestDto)));
+        return responseDtoMapper
+                .mapToDto(rentalService.save(requestDtoMapper.mapToModel(requestDto)));
     }
 
     @GetMapping
@@ -58,7 +59,7 @@ public class RentalController {
             rentals.addAll(rentalService.getAllByUserId(userId));
         }
         if (isActive != null) {
-            rentals.addAll(rentalService.getActive(isActive)) ;
+            rentals.addAll(rentalService.getActive(isActive));
         }
         return rentals.stream()
                 .map(responseDtoMapper::mapToDto)

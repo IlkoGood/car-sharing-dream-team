@@ -38,7 +38,6 @@ public class PaymentController {
     private final RequestDtoMapper<PaymentRequestDto, Payment> requestDtoMapper;
     private final ResponseDtoMapper<PaymentResponseDto, Payment> responseDtoMapper;
 
-
     @PostMapping
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public PaymentResponseDto createPaymentSession(@RequestBody PaymentRequestDto dto) {
@@ -55,7 +54,7 @@ public class PaymentController {
         if (daysActual > daysRental) {
             moneyToFine = dailyFee.multiply(BigDecimal.valueOf((daysActual - daysRental) * FINE_MULTIPLIER));
         }
-        payment.setAmount(moneyToPay.add(moneyToFine));
+        payment.setAmount(moneyToPay);
         payment = paymentService.save(payment);
         Session session = paymentProvider.createPaymentSession(
                 moneyToPay,

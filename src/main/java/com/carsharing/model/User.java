@@ -31,6 +31,7 @@ public class User {
     @ToString.Exclude
     private String password;
     @Enumerated(EnumType.STRING)
+    @Column(name = "role", columnDefinition = "ENUM('MANAGER', 'COSTUMER')", nullable = false)
     private Role role;
     private Long chatId;
 

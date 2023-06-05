@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentalServiceImpl implements RentalService {
     private final RentalRepository rentalRepository;
+    private final TelegramNotificationService telegramNotificationService;
 
     @Override
     public Rental save(Rental rental) {
-        return rentalRepository.save(rental);
+        Rental savedRental = rentalRepository.save(rental);
+        telegramNotificationService.sendNotification(savedRental);
+        return savedRental;
     }
 
     @Override

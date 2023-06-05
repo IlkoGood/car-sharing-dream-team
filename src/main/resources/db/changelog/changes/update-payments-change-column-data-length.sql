@@ -1,0 +1,1 @@
+ALTER TABLE `payments` MODIFY `session_url` VARCHAR(500) DEFAULT NULL;
