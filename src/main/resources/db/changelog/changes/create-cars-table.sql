@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS `cars` (
                         `brand` VARCHAR(255) NOT NULL,
                         `type` ENUM('HATCHBACK','SEDAN','SUV','UNIVERSAL') NOT NULL,
                         `inventory` INT NOT NULL,
-                        `daily_fee` DECIMAL(38,2) DEFAULT NULL,
+                        `daily_fee` DECIMAL(38,2) NOT NULL,
                         PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) DEFAULT CHARSET=utf8mb4;
 
 --rollback DROP TABLE cars;
