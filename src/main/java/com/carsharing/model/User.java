@@ -24,11 +24,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Exclude
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     private String firstName;
     private String lastName;
     @ToString.Exclude
+    @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "ENUM('MANAGER', 'COSTUMER')", nullable = false)
