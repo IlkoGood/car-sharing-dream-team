@@ -11,5 +11,4 @@ public class CarRequestDto {
     private Car.Type type;
     private int inventory;
     private BigDecimal dailyFee;
-
 }

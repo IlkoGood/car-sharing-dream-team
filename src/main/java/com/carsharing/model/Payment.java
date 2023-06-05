@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
@@ -33,7 +32,6 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", columnDefinition = "ENUM('FINE','PAYMENT')", nullable = false)
     private Type type;
-    @MapsId
     @OneToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;

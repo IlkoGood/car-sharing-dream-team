@@ -30,11 +30,10 @@ public class User {
     private String lastName;
     @ToString.Exclude
     private String password;
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
     @Enumerated(EnumType.STRING)
     @Column(name = "role", columnDefinition = "ENUM('MANAGER', 'COSTUMER')", nullable = false)
     private Role role;
+    private Long chatId;
 
     public enum Role {
         MANAGER, CUSTOMER

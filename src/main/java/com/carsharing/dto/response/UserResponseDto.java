@@ -1,4 +1,4 @@
-package com.carsharing.dto.user;
+package com.carsharing.dto.response;
 
 import lombok.Data;
 
@@ -8,4 +8,5 @@ public class UserResponseDto {
     private String email;
     private String firstName;
     private String lastName;
+    private String role;
 }
