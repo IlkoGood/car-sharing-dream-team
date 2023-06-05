@@ -5,6 +5,7 @@ import com.carsharing.dto.request.UserLoginDto;
 import com.carsharing.dto.request.UserRegistrationDto;
 import com.carsharing.dto.response.JwtAuthResponse;
 import com.carsharing.dto.response.UserResponseDto;
+import com.carsharing.exception.AuthenticationException;
 import com.carsharing.model.User;
 import com.carsharing.security.AuthService;
 import jakarta.validation.Valid;
@@ -29,8 +30,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> authenticate(@RequestBody @Valid UserLoginDto loginDto) {
-        String token = authService.login(loginDto);
+    public ResponseEntity<JwtAuthResponse> authenticate(@RequestBody @Valid UserLoginDto loginDto)
+            throws AuthenticationException {
+        String token = authService.login(loginDto.getEmail(), loginDto.getPassword());
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
         return ResponseEntity.ok(jwtAuthResponse);

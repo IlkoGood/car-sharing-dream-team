@@ -25,7 +25,7 @@ public class TelegramNotificationService implements NotificationService {
     private final CarRepository carRepository;
     private final RentalRepository rentalServiceRepository;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
+  
     @Override
     public void sendNotification(Rental rental) {
         SendMessage sendMessage = new SendMessage();
@@ -40,7 +40,7 @@ public class TelegramNotificationService implements NotificationService {
             throw new RuntimeException("Can't send message", e);
         }
     }
-
+  
     @Override
     public void generateMessageToAdministrators(String message) {
         List<User> userByRole = userRepository.findAllByRole(User.Role.MANAGER);
@@ -57,7 +57,8 @@ public class TelegramNotificationService implements NotificationService {
             }
         }
     }
-
+  
+  
     @Scheduled(cron = "0 0 12 * * ?")
     public void sendOverdueRentalNotifications() {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -96,7 +97,8 @@ public class TelegramNotificationService implements NotificationService {
         }
         return text;
     }
-
+  
+  
     private void sendMessageToAllUsers() {
         List<User> users = userRepository.findAll();
         for (User user : users) {
@@ -112,7 +114,8 @@ public class TelegramNotificationService implements NotificationService {
             }
         }
     }
-
+  
+  
     private String generateOverdueRentalNotification(Rental rental, LocalDateTime date) {
         String text = "It looks like you've missed a rent payment on "
                 + date.format(formatter)

@@ -1,10 +1,10 @@
 package com.carsharing.security;
 
-import com.carsharing.dto.request.UserLoginDto;
+import com.carsharing.exception.AuthenticationException;
 import com.carsharing.model.User;
 
 public interface AuthService {
-    String login(UserLoginDto loginDto);
+    String login(String email, String password) throws AuthenticationException;
 
     User register(String email, String password);
 }
