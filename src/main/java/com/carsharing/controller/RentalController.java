@@ -41,7 +41,8 @@ public class RentalController {
         }
         car.setInventory(car.getInventory() - 1);
         carService.update(car);
-        return responseDtoMapper.mapToDto(rentalService.save(requestDtoMapper.mapToModel(requestDto)));
+        return responseDtoMapper
+                .mapToDto(rentalService.save(requestDtoMapper.mapToModel(requestDto)));
     }
 
     @GetMapping
