@@ -6,8 +6,8 @@ import com.carsharing.model.Rental;
 import com.carsharing.model.User;
 import com.carsharing.repository.CarRepository;
 import com.carsharing.repository.RentalRepository;
+import com.carsharing.repository.UserRepository;
 import com.carsharing.service.NotificationService;
-import com.carsharing.service.UserService;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,16 +21,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @RequiredArgsConstructor
 public class TelegramNotificationService implements NotificationService {
     private final TelegramCarSharingBot telegramCarSharingBot;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final CarRepository carRepository;
     private final RentalRepository rentalServiceRepository;
-    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+  
     @Override
     public void sendNotification(Rental rental) {
         SendMessage sendMessage = new SendMessage();
-        User userById = userService.findById(rental.getUser().getId());
-        sendMessage.setChatId(String.valueOf(userById.getChatId()));
+        User user = userRepository.findById(rental.getUser().getId())
+                .orElseThrow(() -> new RuntimeException("Can't find user with id: "
+                        + rental.getUser().getId()));
+        sendMessage.setChatId(String.valueOf(user.getChatId()));
         sendMessage.setText(generateRentalNotificationMessage(rental));
         try {
             telegramCarSharingBot.execute(sendMessage);
@@ -38,20 +40,44 @@ public class TelegramNotificationService implements NotificationService {
             throw new RuntimeException("Can't send message", e);
         }
     }
-
+  
+    @Override
+    public void generateMessageToAdministrators(String message) {
+        List<User> userByRole = userRepository.findAllByRole(User.Role.MANAGER);
+        for (User user : userByRole) {
+            if (user.getChatId() != null) {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(String.valueOf(user.getChatId()));
+                sendMessage.setText(message);
+                try {
+                    telegramCarSharingBot.execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException("Can't send message to admins");
+                }
+            }
+        }
+    }
+  
+  
     @Scheduled(cron = "0 0 12 * * ?")
     public void sendOverdueRentalNotifications() {
         LocalDateTime localDateTime = LocalDateTime.now();
         List<Rental> overdueRentals = rentalServiceRepository.findOverdueRentals(localDateTime);
-        for (Rental rental : overdueRentals) {
-            SendMessage sendMessage = new SendMessage();
-            User userById = userService.findById(rental.getUser().getId());
-            sendMessage.setChatId(String.valueOf(userById.getChatId()));
-            sendMessage.setText(generateOverdueRentalNotification(rental, localDateTime));
-            try {
-                telegramCarSharingBot.execute(sendMessage);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException("Can't send message", e);
+        if (overdueRentals.isEmpty()) {
+            sendMessageToAllUsers();
+        } else {
+            for (Rental rental : overdueRentals) {
+                SendMessage sendMessage = new SendMessage();
+                User user = userRepository.findById(rental.getUser().getId())
+                        .orElseThrow(() -> new RuntimeException("Can't find user with id: "
+                                + rental.getUser().getId()));
+                sendMessage.setChatId(String.valueOf(user.getChatId()));
+                sendMessage.setText(generateOverdueRentalNotification(rental, localDateTime));
+                try {
+                    telegramCarSharingBot.execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException("Can't send message", e);
+                }
             }
         }
     }
@@ -71,7 +97,25 @@ public class TelegramNotificationService implements NotificationService {
         }
         return text;
     }
-
+  
+  
+    private void sendMessageToAllUsers() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            if (user.getChatId() != null) {
+                SendMessage sendMessage = new SendMessage();
+                sendMessage.setChatId(String.valueOf(user.getChatId()));
+                sendMessage.setText("No rentals overdue today!");
+                try {
+                    telegramCarSharingBot.execute(sendMessage);
+                } catch (TelegramApiException e) {
+                    throw new RuntimeException("Can't send message", e);
+                }
+            }
+        }
+    }
+  
+  
     private String generateOverdueRentalNotification(Rental rental, LocalDateTime date) {
         String text = "It looks like you've missed a rent payment on "
                 + date.format(formatter)

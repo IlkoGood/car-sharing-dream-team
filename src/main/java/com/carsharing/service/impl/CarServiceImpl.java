@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class CarServiceImpl implements CarService {
+    private final TelegramNotificationService telegramNotificationService;
     private final CarRepository carRepository;
 
     @Override
     public Car save(Car car) {
-        return carRepository.save(car);
+        Car savedCar = carRepository.save(car);
+        telegramNotificationService.generateMessageToAdministrators("Car was added to DB");
+        return savedCar;
     }
 
     @Override
@@ -26,14 +29,23 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car update(Car car) {
         if (carRepository.existsById(car.getId())) {
-            return carRepository.save(car);
+            Car savedCar = carRepository.save(car);
+            telegramNotificationService.generateMessageToAdministrators("Car: " + car
+                    + " was updated in DB");
+            return savedCar;
         }
         throw new RuntimeException("Can't find car by id: " + car.getId());
     }
 
     @Override
     public void delete(Long id) {
-        carRepository.deleteById(id);
+        if (carRepository.existsById(id)) {
+            carRepository.deleteById(id);
+            telegramNotificationService.generateMessageToAdministrators("Car by id:"
+                    + id + " was deleted");
+        } else {
+            throw new RuntimeException("Can't find car by id: " + id);
+        }
     }
 
     @Override
