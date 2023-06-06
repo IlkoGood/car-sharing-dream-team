@@ -29,9 +29,7 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto getUserInfo(Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName())
-                .orElseThrow(() -> new DataProcessingException("User data had been violently "
-                        + "changed between authentication and request processing"));
+        User user = userService.findByEmail(authentication.getName());
         return userMapper.mapToDto(user);
     }
 
@@ -39,9 +37,7 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto updateUser(@RequestBody @Valid UserRequestDto requestDto,
                                       Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName())
-                .orElseThrow(() -> new DataProcessingException("User data had been violently "
-                        + "changed between authentication and request processing"));
+        User user = userService.findByEmail(authentication.getName());
         user.setFirstName(requestDto.getFirstName());
         user.setLastName(requestDto.getLastName());
         user = userService.save(user);
@@ -49,7 +45,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
+    @PreAuthorize("hasAnyAuthority('MANAGER', 'CUSTOMER')")
     public UserResponseDto getInfoNoAuth(@PathVariable Long id, @RequestParam User.Role role) {
         User user = userService.findById(id);
         user.setRole(role);

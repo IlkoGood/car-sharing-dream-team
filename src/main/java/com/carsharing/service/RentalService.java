@@ -12,7 +12,5 @@ public interface RentalService {
 
     List<Rental> getAllByUserId(Long userId);
 
-    List<Rental> getActive(Boolean isActive);
-
     Rental getById(Long id);
 }

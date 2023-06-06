@@ -37,12 +37,6 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<Rental> getActive(Boolean isActive) {
-        return isActive ? rentalRepository.findRentalsByActualReturnDateIsNull()
-                : rentalRepository.findRentalsByActualReturnDateIsNotNull();
-    }
-
-    @Override
     public Rental getById(Long id) {
         return rentalRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("Can`t find rental by id: " + id)

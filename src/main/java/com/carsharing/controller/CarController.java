@@ -9,6 +9,7 @@ import com.carsharing.service.CarService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ public class CarController {
     private final ResponseDtoMapper<CarResponseDto, Car> responseDtoMapper;
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('MANAGER')")
     public CarResponseDto create(@RequestBody CarRequestDto carRequestDto) {
         return responseDtoMapper.mapToDto(carService
                 .save(requestDtoMapper.mapToModel(carRequestDto)));
@@ -38,6 +40,7 @@ public class CarController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER')")
     public CarResponseDto update(@PathVariable Long id, @RequestBody CarRequestDto requestDto) {
         Car car = requestDtoMapper.mapToModel(requestDto);
         car.setId(id);
@@ -46,6 +49,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('MANAGER')")
     void delete(@PathVariable Long id) {
         carService.delete(id);
     }

@@ -23,6 +23,7 @@ public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Paym
         dto.setType(payment.getType());
         dto.setRental(payment.getRental().getId());
         dto.setSessionUrl(payment.getSessionUrl());
+        dto.setReceiptUrl(payment.getReceiptUrl());
         dto.setSessionId(payment.getSessionId());
         dto.setAmount(payment.getAmount());
         return dto;
