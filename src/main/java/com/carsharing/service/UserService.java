@@ -1,6 +1,7 @@
 package com.carsharing.service;
 
 import com.carsharing.model.User;
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -11,4 +12,8 @@ public interface UserService {
     Optional<User> findByEmail(String email);
 
     void delete(Long id);
+
+    List<User> getAllUsers();
+
+    List<User> findUserByRole(User.Role role);
 }
