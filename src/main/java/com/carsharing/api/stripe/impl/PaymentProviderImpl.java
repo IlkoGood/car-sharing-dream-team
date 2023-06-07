@@ -1,7 +1,13 @@
 package com.carsharing.api.stripe.impl;
 
 import com.carsharing.api.stripe.PaymentProvider;
+import com.carsharing.model.Car;
 import com.carsharing.model.Payment;
+import com.carsharing.model.Rental;
+import com.carsharing.model.User;
+import com.carsharing.service.CarService;
+import com.carsharing.service.RentalService;
+import com.carsharing.service.UserService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
@@ -9,6 +15,7 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import java.math.BigDecimal;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -25,15 +32,20 @@ public class PaymentProviderImpl implements PaymentProvider {
 
     public Session createPaymentSession(BigDecimal payment,
                                         BigDecimal fine,
-                                        Payment paymentObject) {
+                                        Payment paymentObject,
+                                        Rental rental,
+                                        Car car,
+                                        User user) {
         Stripe.apiKey = secretKey;
         Long paymentId = paymentObject.getId();
         SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                 .setPaymentIntentData(SessionCreateParams.PaymentIntentData.builder()
-                        .setDescription("Car-sharing payment[id: " + paymentObject.getId() + ']')
+                        .setDescription("Car-sharing payment[id: " + paymentObject.getId() + "] for "
+                                + car.getBrand() + ' ' + car.getModel() + " rental")
                         .setTransferGroup(GROUP)
                         .build()
                 )
+                .setCustomerEmail(user.getEmail())
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setSuccessUrl(domen + "/payments/success/" + paymentId)
                 .setCancelUrl(domen + "/payments/cancel/" + paymentId)

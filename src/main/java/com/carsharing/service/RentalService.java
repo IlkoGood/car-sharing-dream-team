@@ -8,9 +8,11 @@ public interface RentalService {
 
     void delete(Rental rental);
 
-    List<Rental> getAll();
-
-    List<Rental> getAllByUserId(Long userId);
-
     Rental getById(Long id);
+
+    List<Rental> getByParam(Long userId, Boolean isActive);
+
+    void createRental(Rental rental);
+
+    Rental closeRental(Rental rental);
 }
