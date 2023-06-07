@@ -57,8 +57,7 @@ public class TelegramNotificationService implements NotificationService {
             }
         }
     }
-  
-  
+
     @Scheduled(cron = "0 0 12 * * ?")
     public void sendOverdueRentalNotifications() {
         LocalDateTime localDateTime = LocalDateTime.now();
@@ -98,7 +97,6 @@ public class TelegramNotificationService implements NotificationService {
         return text;
     }
   
-  
     private void sendMessageToAllUsers() {
         List<User> users = userRepository.findAll();
         for (User user : users) {
@@ -114,8 +112,7 @@ public class TelegramNotificationService implements NotificationService {
             }
         }
     }
-  
-  
+
     private String generateOverdueRentalNotification(Rental rental, LocalDateTime date) {
         String text = "It looks like you've missed a rent payment on "
                 + date.format(formatter)

@@ -8,15 +8,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -32,7 +28,7 @@ public class User {
     @Column(nullable = false)
     private String password;
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", columnDefinition = "ENUM('MANAGER', 'COSTUMER')", nullable = false)
+    @Column(name = "role", columnDefinition = "ENUM('MANAGER', 'CUSTOMER')", nullable = false)
     private Role role;
     private Long chatId;
 
