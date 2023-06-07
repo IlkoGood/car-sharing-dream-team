@@ -27,7 +27,6 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/me")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto getUserInfo(Authentication authentication) {
         User user = userService.findByEmail(authentication.getName())
                 .orElseThrow(() -> new DataProcessingException("User data had been violently "
@@ -36,7 +35,6 @@ public class UserController {
     }
 
     @PatchMapping("/me")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto updateUser(@RequestBody @Valid UserRequestDto requestDto,
                                       Authentication authentication) {
         User user = userService.findByEmail(authentication.getName())
@@ -49,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public UserResponseDto getInfoNoAuth(@PathVariable Long id, @RequestParam User.Role role) {
         User user = userService.findById(id);
         user.setRole(role);
