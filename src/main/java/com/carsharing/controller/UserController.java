@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/role")
-    @PreAuthorize("hasAnyAuthority('MANAGER', 'CUSTOMER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public UserResponseDto getInfoNoAuth(@PathVariable Long id, @RequestParam User.Role role) {
         User user = userService.findById(id);
         user.setRole(role);

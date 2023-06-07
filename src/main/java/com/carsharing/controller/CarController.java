@@ -28,7 +28,7 @@ public class CarController {
     private final ResponseDtoMapper<CarResponseDto, Car> responseDtoMapper;
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public CarResponseDto create(@RequestBody CarRequestDto carRequestDto) {
         return responseDtoMapper.mapToDto(carService
                 .save(requestDtoMapper.mapToModel(carRequestDto)));
@@ -40,7 +40,7 @@ public class CarController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     public CarResponseDto update(@PathVariable Long id, @RequestBody CarRequestDto requestDto) {
         Car car = requestDtoMapper.mapToModel(requestDto);
         car.setId(id);
@@ -49,7 +49,7 @@ public class CarController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('MANAGER')")
+    @PreAuthorize("hasAuthority('MANAGER')")
     void delete(@PathVariable Long id) {
         carService.delete(id);
     }

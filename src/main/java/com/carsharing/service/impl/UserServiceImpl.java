@@ -4,6 +4,7 @@ import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.repository.UserRepository;
 import com.carsharing.service.UserService;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +34,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findUserByRole(User.Role role) {
+        return userRepository.findAllByRole(role);
     }
 }

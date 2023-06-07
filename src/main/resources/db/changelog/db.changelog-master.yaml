@@ -8,4 +8,4 @@ databaseChangeLog:
   - include:
       file: /db/changelog/changes/create-payments-table.sql
   - include:
-      file: /db/changelog/changes/update-payments-change-column-data-length.sql
+      file: /db/changelog/changes/insert-temporary-manager.sql

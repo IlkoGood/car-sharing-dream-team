@@ -23,14 +23,16 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login", "/register",
                                 "/cars", "/cars/*",
-                                "/payments/success/*", "/payments/cancel/*").permitAll()
+                                "/payments/success/*", "/payments/cancel/*",
+                                "/swagger-ui/**", "/swagger.html",
+                                "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(configurer -> configurer
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
