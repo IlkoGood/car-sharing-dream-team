@@ -5,7 +5,6 @@ import com.carsharing.model.User;
 import com.carsharing.repository.UserRepository;
 import com.carsharing.service.UserService;
 import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +25,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new DataProcessingException("User data had been violently "
+                + "changed between authentication and request processing"));
     }
 
     @Override

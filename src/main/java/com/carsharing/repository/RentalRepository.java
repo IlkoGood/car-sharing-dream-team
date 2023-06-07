@@ -3,7 +3,6 @@ package com.carsharing.repository;
 import com.carsharing.model.Rental;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,12 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Long> {
     List<Rental> findRentalsByUser_Id(Long userId);
-
-    List<Rental> findRentalsByActualReturnDateIsNull();
-
-    List<Rental> findRentalsByActualReturnDateIsNotNull();
-
-    Optional<Rental> findById(Long id);
 
     @Query("SELECT r FROM Rental r "
             + "LEFT JOIN FETCH r.car "

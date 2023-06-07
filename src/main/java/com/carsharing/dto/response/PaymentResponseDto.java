@@ -11,6 +11,7 @@ public class PaymentResponseDto {
     private Payment.Type type;
     private Long rental;
     private String sessionUrl;
+    private String receiptUrl;
     private String sessionId;
     private BigDecimal amount;
 }

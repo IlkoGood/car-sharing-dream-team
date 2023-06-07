@@ -30,13 +30,15 @@ public class Payment {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @Enumerated(EnumType.STRING)
-    @Column(name = "type", columnDefinition = "ENUM('FINE','PAYMENT')", nullable = false)
+    @Column(name = "type", columnDefinition = "ENUM('PAYMENT','FINE')", nullable = false)
     private Type type;
     @OneToOne
     @JoinColumn(name = "rental_id")
     private Rental rental;
-    @Column(name = "session_url")
+    @Column(name = "session_url", length = 500)
     private String sessionUrl;
+    @Column(name = "receipt_url")
+    private String receiptUrl;
     @Column(name = "session_id")
     private String sessionId;
     private BigDecimal amount;
@@ -45,7 +47,6 @@ public class Payment {
         PENDING,
         PAID
     }
-
     public enum Type {
         PAYMENT,
         FINE

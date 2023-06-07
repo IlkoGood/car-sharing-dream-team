@@ -1,8 +1,8 @@
 package com.carsharing.bot;
 
+import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.service.UserService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,15 +39,16 @@ public class TelegramCarSharingBot extends TelegramLongPollingBot {
                 sendStartMessage(chatId, update.getMessage().getChat().getFirstName());
                 return;
             }
-            Optional<User> user = userService.findByEmail(messageText);
-            if (user.isPresent()) {
-                User foundUser = user.get();
-                foundUser.setChatId(chatId);
-                userService.save(foundUser);
+            User user = null;
+            try {
+                user = userService.findByEmail(messageText);
+            } catch (DataProcessingException e) {
+                sendMessage(chatId, "User with this email doesn't exist, try again");
+            }
+            if (user != null) {
+                user.setChatId(chatId);
+                userService.save(user);
                 sendMessage(chatId, "User registration successful! Welcome");
-            } else {
-                String answer = "User with this email doesn't exist, try again";
-                sendMessage(chatId, answer);
             }
         }
     }

@@ -4,7 +4,6 @@ import com.carsharing.exception.AuthenticationException;
 import com.carsharing.model.User;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.UserService;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,11 +17,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String login(String email, String password) throws AuthenticationException {
-        Optional<User> user = userService.findByEmail(email);
-        if (user.isEmpty() || !passwordEncoder.matches(password, user.get().getPassword())) {
-            throw new AuthenticationException("Incorrect username or password!");
+        User user = userService.findByEmail(email);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return jwtTokenProvider.generateToken(email);
         }
-        return jwtTokenProvider.generateToken(email);
+        throw new AuthenticationException("Incorrect username or password!");
     }
 
     @Override

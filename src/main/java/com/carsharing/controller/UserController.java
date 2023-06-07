@@ -3,7 +3,6 @@ package com.carsharing.controller;
 import com.carsharing.dto.mapper.impl.UserMapper;
 import com.carsharing.dto.request.UserRequestDto;
 import com.carsharing.dto.response.UserResponseDto;
-import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.service.UserService;
 import jakarta.validation.Valid;
@@ -27,19 +26,17 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/me")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto getUserInfo(Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName())
-                .orElseThrow(() -> new DataProcessingException("User data had been violently "
-                        + "changed between authentication and request processing"));
+        User user = userService.findByEmail(authentication.getName());
         return userMapper.mapToDto(user);
     }
 
     @PatchMapping("/me")
+    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto updateUser(@RequestBody @Valid UserRequestDto requestDto,
                                       Authentication authentication) {
-        User user = userService.findByEmail(authentication.getName())
-                .orElseThrow(() -> new DataProcessingException("User data had been violently "
-                        + "changed between authentication and request processing"));
+        User user = userService.findByEmail(authentication.getName());
         user.setFirstName(requestDto.getFirstName());
         user.setLastName(requestDto.getLastName());
         user = userService.save(user);
