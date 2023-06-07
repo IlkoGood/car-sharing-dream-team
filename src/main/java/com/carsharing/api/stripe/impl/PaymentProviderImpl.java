@@ -5,9 +5,6 @@ import com.carsharing.model.Car;
 import com.carsharing.model.Payment;
 import com.carsharing.model.Rental;
 import com.carsharing.model.User;
-import com.carsharing.service.CarService;
-import com.carsharing.service.RentalService;
-import com.carsharing.service.UserService;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
@@ -15,7 +12,6 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

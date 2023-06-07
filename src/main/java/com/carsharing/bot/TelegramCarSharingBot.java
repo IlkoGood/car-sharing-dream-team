@@ -3,7 +3,6 @@ package com.carsharing.bot;
 import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.service.UserService;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

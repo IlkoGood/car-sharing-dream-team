@@ -6,7 +6,6 @@ import com.carsharing.model.Payment;
 import com.carsharing.model.Rental;
 import com.carsharing.model.User;
 import com.carsharing.repository.PaymentRepository;
-import com.carsharing.repository.UserRepository;
 import com.carsharing.service.PaymentService;
 import com.carsharing.service.UserService;
 import com.stripe.model.checkout.Session;

@@ -3,7 +3,6 @@ package com.carsharing.controller;
 import com.carsharing.dto.mapper.impl.UserMapper;
 import com.carsharing.dto.request.UserRequestDto;
 import com.carsharing.dto.response.UserResponseDto;
-import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.service.UserService;
 import jakarta.validation.Valid;
