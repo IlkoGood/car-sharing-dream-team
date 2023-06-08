@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class PaymentRequestDto {
-    private Long rental;
+    private Long rentalId;
     private Payment.Type type;
 }

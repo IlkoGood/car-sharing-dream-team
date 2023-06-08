@@ -5,8 +5,6 @@ import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.RentalRequestDto;
 import com.carsharing.dto.response.RentalResponseDto;
 import com.carsharing.model.Rental;
-import com.carsharing.service.CarService;
-import com.carsharing.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,8 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class RentalMapper implements RequestDtoMapper<RentalRequestDto, Rental>,
         ResponseDtoMapper<RentalResponseDto, Rental> {
-    private final UserService userService;
-    private final CarService carService;
 
     @Override
     public Rental mapToModel(RentalRequestDto dto) {
@@ -23,8 +19,8 @@ public class RentalMapper implements RequestDtoMapper<RentalRequestDto, Rental>,
         rental.setRentalDate(dto.getRentalDate());
         rental.setReturnDate(dto.getReturnDate());
         rental.setActualReturnDate(dto.getActualReturnDate());
-        rental.setUser(userService.findById(dto.getUserId()));
-        rental.setCar(carService.getById(dto.getCarId()));
+        rental.setUserId(dto.getUserId());
+        rental.setCarId(dto.getCarId());
         return rental;
     }
 
@@ -35,9 +31,8 @@ public class RentalMapper implements RequestDtoMapper<RentalRequestDto, Rental>,
         rentalResponseDto.setRentalDate(rental.getRentalDate());
         rentalResponseDto.setReturnDate(rental.getReturnDate());
         rentalResponseDto.setActualReturnDate(rental.getActualReturnDate());
-        rentalResponseDto.setUserId(rental.getUser().getId());
-        rentalResponseDto.setCarId(rental.getCar().getId());
+        rentalResponseDto.setUserId(rental.getUserId());
+        rentalResponseDto.setCarId(rental.getCarId());
         return rentalResponseDto;
     }
-
 }

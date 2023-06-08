@@ -21,7 +21,7 @@ public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Paym
         dto.setId(payment.getId());
         dto.setStatus(payment.getStatus());
         dto.setType(payment.getType());
-        dto.setRental(payment.getRental().getId());
+        dto.setRental(payment.getRentalId());
         dto.setSessionUrl(payment.getSessionUrl());
         dto.setReceiptUrl(payment.getReceiptUrl());
         dto.setSessionId(payment.getSessionId());
@@ -34,7 +34,7 @@ public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Paym
         Payment payment = new Payment();
         payment.setStatus(Payment.Status.PENDING);
         payment.setType(dto.getType());
-        payment.setRental(rentalService.getById(dto.getRental()));
+        payment.setRentalId(dto.getRentalId());
         return payment;
     }
 }

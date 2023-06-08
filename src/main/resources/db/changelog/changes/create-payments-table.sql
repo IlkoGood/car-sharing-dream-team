@@ -9,8 +9,7 @@ CREATE TABLE IF NOT EXISTS `payments` (
                             `receipt_url` VARCHAR(255) DEFAULT NULL,
                             `status` ENUM('PAID','PENDING') DEFAULT NULL,
                             `type` ENUM('FINE','PAYMENT') DEFAULT NULL,
-                            PRIMARY KEY (`id`),
-                            CONSTRAINT `payment_rental_fk` FOREIGN KEY (`rental_id`) REFERENCES `rentals` (`id`)
+                            PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --rollback DROP TABLE payments;

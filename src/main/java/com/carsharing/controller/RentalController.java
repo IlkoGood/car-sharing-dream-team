@@ -33,7 +33,7 @@ public class RentalController {
     public RentalResponseDto create(Authentication authentication,
                                     @RequestBody RentalRequestDto requestDto) {
         Rental rental = requestDtoMapper.mapToModel(requestDto);
-        accessService.checkUserAccess(authentication, rental.getUser().getId());
+        accessService.checkUserAccess(authentication, rental.getUserId());
         rentalService.createRental(rental);
         return responseDtoMapper.mapToDto(rentalService.save(rental));
     }
@@ -51,14 +51,14 @@ public class RentalController {
     @GetMapping("/{id}")
     public RentalResponseDto getById(Authentication authentication, @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
-        accessService.checkUserAccess(authentication, rental.getUser().getId());
+        accessService.checkUserAccess(authentication, rental.getUserId());
         return responseDtoMapper.mapToDto(rental);
     }
 
     @PutMapping("/{id}/return")
     public RentalResponseDto close(Authentication authentication, @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
-        accessService.checkUserAccess(authentication, rental.getUser().getId());
+        accessService.checkUserAccess(authentication, rental.getUserId());
         return responseDtoMapper.mapToDto(rentalService.save(rentalService.closeRental(rental)));
     }
 }
