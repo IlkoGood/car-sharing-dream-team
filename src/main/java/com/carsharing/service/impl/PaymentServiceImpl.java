@@ -49,13 +49,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<Payment> getByUserId(Long userId) {
-        return paymentRepository.findPaymentsByRental_UserId(userId);
+        return paymentRepository.findPaymentsByUserId(userId);
     }
 
     @Override
     public Payment createPaymentSession(Payment payment, Rental rental, Car car) {
         Optional<Payment> checkExistPayment =
-                paymentRepository.findPaymentByRental_Id(rental.getId());
+                paymentRepository.findPaymentByRentalId(rental.getId());
         System.out.println(checkExistPayment);
         if (checkExistPayment.isPresent()) {
             throw new RuntimeException("Payment[id: "
@@ -69,7 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
         }
         payment.setAmount(moneyToPay.add(moneyToFine));
         payment = paymentRepository.save(payment);
-        User user = userService.findById(rental.getUser().getId());
+        User user = userService.findById(rental.getUserId());
         Session session = paymentProvider.createPaymentSession(
                 moneyToPay,
                 moneyToFine,
@@ -103,7 +103,7 @@ public class PaymentServiceImpl implements PaymentService {
         BigDecimal dailyFee = car.getDailyFee();
         BigDecimal moneyToFine = BigDecimal.ZERO;
         if (daysActual > daysRental) {
-        moneyToFine = dailyFee.multiply(
+            moneyToFine = dailyFee.multiply(
                 BigDecimal.valueOf((daysActual - daysRental) * FINE_MULTIPLIER));
         }
         return moneyToFine;

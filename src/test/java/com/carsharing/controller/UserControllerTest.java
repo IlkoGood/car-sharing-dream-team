@@ -18,8 +18,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
-
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -39,7 +37,7 @@ class UserControllerTest {
 
     @Test
     void getUserInfo_ok() {
-        Mockito.when(userService.findByEmail("test@test.com")).thenReturn(Optional.of(defaultUser));
+        Mockito.when(userService.findByEmail("test@test.com")).thenReturn(defaultUser);
         String jwtToken = tokenProvider.generateToken("test@test.com");
         RestAssuredMockMvc.given()
                 .header("Authorization", "Bearer " + jwtToken)
@@ -52,7 +50,7 @@ class UserControllerTest {
 
     @Test
     void updateUser_ok() {
-        Mockito.when(userService.findByEmail("test@test.com")).thenReturn(Optional.of(defaultUser));
+        Mockito.when(userService.findByEmail("test@test.com")).thenReturn(defaultUser);
 
         User updatedUser = getUpdatedUser();
         Mockito.when(userService.save(defaultUser)).thenReturn(updatedUser);
@@ -76,7 +74,7 @@ class UserControllerTest {
 
     @Test
     void updateRole_ok() {
-        Mockito.when(userService.findByEmail("test@test.com")).thenReturn(Optional.of(defaultUser));
+        Mockito.when(userService.findByEmail("test@test.com")).thenReturn(defaultUser);
         Mockito.when(userService.findById(21L)).thenReturn(defaultUser);
 
         User updatedUser = getUpdatedUser();

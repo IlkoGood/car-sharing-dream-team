@@ -33,7 +33,7 @@ public class RentalController {
     public RentalResponseDto create(Authentication authentication,
                                     @RequestBody RentalRequestDto requestDto) {
         Rental rental = requestDtoMapper.mapToModel(requestDto);
-        if (accessService.checkUserAccess(authentication, rental.getUser().getId())) {
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
         }
         rentalService.createRental(rental);
@@ -55,7 +55,7 @@ public class RentalController {
     @GetMapping("/{id}")
     public RentalResponseDto getById(Authentication authentication, @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
-        if (accessService.checkUserAccess(authentication, rental.getUser().getId())) {
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
         }
         return responseDtoMapper.mapToDto(rental);
@@ -64,7 +64,7 @@ public class RentalController {
     @PutMapping("/{id}/return")
     public RentalResponseDto close(Authentication authentication, @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
-        if (accessService.checkUserAccess(authentication, rental.getUser().getId())) {
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
         }
         return responseDtoMapper.mapToDto(rentalService.save(rentalService.closeRental(rental)));

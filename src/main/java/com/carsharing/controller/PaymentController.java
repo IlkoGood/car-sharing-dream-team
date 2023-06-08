@@ -39,11 +39,11 @@ public class PaymentController {
     public PaymentResponseDto createPaymentSession(Authentication authentication,
                                                    @RequestBody PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
-        Rental rental = rentalService.getById(payment.getRental().getId());
-        if (accessService.checkUserAccess(authentication, rental.getUser().getId())) {
+        Rental rental = rentalService.getById(payment.getRentalId());
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
         }
-        Car car = carService.getById(rental.getCar().getId());
+        Car car = carService.getById(rental.getCarId());
         payment = paymentService.createPaymentSession(payment, rental, car);
         return responseDtoMapper.mapToDto(paymentService.save(payment));
     }

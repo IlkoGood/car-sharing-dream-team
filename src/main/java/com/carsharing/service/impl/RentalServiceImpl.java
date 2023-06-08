@@ -40,7 +40,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public List<Rental> getByParam(Long userId, Boolean isActive) {
-        List<Rental> rentals = userId != null ? rentalRepository.findRentalsByUser_Id(userId)
+        List<Rental> rentals = userId != null ? rentalRepository.findRentalsByUserId(userId)
                 : rentalRepository.findAll();
         if (isActive != null) {
             rentals = rentals.stream()
@@ -52,7 +52,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public void createRental(Rental rental) {
-        Car car = carService.getById(rental.getCar().getId());
+        Car car = carService.getById(rental.getCarId());
         if (car.getInventory() < 1) {
             throw new RuntimeException("There are no available cars of this model ["
                     + car + ']');
@@ -68,7 +68,7 @@ public class RentalServiceImpl implements RentalService {
                     + rental.getId() + "' is no longer active!");
         }
         rental.setActualReturnDate(LocalDateTime.now());
-        Car car = carService.getById(rental.getCar().getId());
+        Car car = carService.getById(rental.getCarId());
         car.setInventory(car.getInventory() + 1);
         carService.update(car);
         return rental;
