@@ -33,7 +33,9 @@ public class RentalController {
     public RentalResponseDto create(Authentication authentication,
                                     @RequestBody RentalRequestDto requestDto) {
         Rental rental = requestDtoMapper.mapToModel(requestDto);
-        accessService.checkUserAccess(authentication, rental.getUserId());
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
+            throw new RuntimeException("You do not have access to this data");
+        }
         rentalService.createRental(rental);
         return responseDtoMapper.mapToDto(rentalService.save(rental));
     }
@@ -42,7 +44,9 @@ public class RentalController {
     public List<RentalResponseDto> get(Authentication authentication,
                                        @RequestParam(required = false) Long userId,
                                        @RequestParam(required = false) Boolean isActive) {
-        accessService.checkUserAccess(authentication, userId);
+        if (accessService.checkUserAccess(authentication, userId)) {
+            throw new RuntimeException("You do not have access to this data");
+        }
         return rentalService.getByParam(userId, isActive).stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
@@ -51,14 +55,18 @@ public class RentalController {
     @GetMapping("/{id}")
     public RentalResponseDto getById(Authentication authentication, @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
-        accessService.checkUserAccess(authentication, rental.getUserId());
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
+            throw new RuntimeException("You do not have access to this data");
+        }
         return responseDtoMapper.mapToDto(rental);
     }
 
     @PutMapping("/{id}/return")
     public RentalResponseDto close(Authentication authentication, @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
-        accessService.checkUserAccess(authentication, rental.getUserId());
+        if (accessService.checkUserAccess(authentication, rental.getUserId())) {
+            throw new RuntimeException("You do not have access to this data");
+        }
         return responseDtoMapper.mapToDto(rentalService.save(rentalService.closeRental(rental)));
     }
 }

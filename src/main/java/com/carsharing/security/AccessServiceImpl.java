@@ -13,11 +13,9 @@ public class AccessServiceImpl implements AccessService {
     private final UserService userService;
 
     @Override
-    public void checkUserAccess(Authentication authentication, Long userId) {
+    public Boolean checkUserAccess(Authentication authentication, Long userId) {
         Long authUserId = userService.findByEmail(authentication.getName()).getId();
-        if (!this.isManager(authentication) && !Objects.equals(authUserId, userId)) {
-            throw new RuntimeException("You do not have access to this data");
-        }
+        return !this.isManager(authentication) && !Objects.equals(authUserId, userId);
     }
 
     @Override
