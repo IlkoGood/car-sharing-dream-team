@@ -47,6 +47,7 @@ public class Payment {
         PENDING,
         PAID
     }
+
     public enum Type {
         PAYMENT,
         FINE

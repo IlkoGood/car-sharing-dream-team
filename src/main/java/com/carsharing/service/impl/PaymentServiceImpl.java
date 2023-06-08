@@ -103,7 +103,7 @@ public class PaymentServiceImpl implements PaymentService {
         BigDecimal dailyFee = car.getDailyFee();
         BigDecimal moneyToFine = BigDecimal.ZERO;
         if (daysActual > daysRental) {
-        moneyToFine = dailyFee.multiply(
+            moneyToFine = dailyFee.multiply(
                 BigDecimal.valueOf((daysActual - daysRental) * FINE_MULTIPLIER));
         }
         return moneyToFine;
