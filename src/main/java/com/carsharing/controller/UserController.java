@@ -26,14 +26,12 @@ public class UserController {
     private final UserMapper userMapper;
 
     @GetMapping("/me")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto getUserInfo(Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
         return userMapper.mapToDto(user);
     }
 
     @PatchMapping("/me")
-    @PreAuthorize("hasAnyAuthority('CUSTOMER', 'MANAGER')")
     public UserResponseDto updateUser(@RequestBody @Valid UserRequestDto requestDto,
                                       Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());

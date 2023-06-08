@@ -29,9 +29,9 @@ public class TelegramNotificationService implements NotificationService {
     @Override
     public void sendNotification(Rental rental) {
         SendMessage sendMessage = new SendMessage();
-        User user = userRepository.findById(rental.getUser().getId())
+        User user = userRepository.findById(rental.getUserId())
                 .orElseThrow(() -> new RuntimeException("Can't find user with id: "
-                        + rental.getUser().getId()));
+                        + rental.getUserId()));
         sendMessage.setChatId(String.valueOf(user.getChatId()));
         sendMessage.setText(generateRentalNotificationMessage(rental));
         try {
@@ -67,9 +67,9 @@ public class TelegramNotificationService implements NotificationService {
         } else {
             for (Rental rental : overdueRentals) {
                 SendMessage sendMessage = new SendMessage();
-                User user = userRepository.findById(rental.getUser().getId())
+                User user = userRepository.findById(rental.getUserId())
                         .orElseThrow(() -> new RuntimeException("Can't find user with id: "
-                                + rental.getUser().getId()));
+                                + rental.getUserId()));
                 sendMessage.setChatId(String.valueOf(user.getChatId()));
                 sendMessage.setText(generateOverdueRentalNotification(rental, localDateTime));
                 try {
@@ -82,7 +82,7 @@ public class TelegramNotificationService implements NotificationService {
     }
 
     private String generateRentalNotificationMessage(Rental rental) {
-        Car car = carRepository.findById(rental.getCar().getId()).orElseThrow(() ->
+        Car car = carRepository.findById(rental.getCarId()).orElseThrow(() ->
                 new RuntimeException("Car not found"));
         String text;
         if (rental.getActualReturnDate() == null) {

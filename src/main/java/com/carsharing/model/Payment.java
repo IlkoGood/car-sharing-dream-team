@@ -7,8 +7,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import lombok.Data;
@@ -32,9 +30,8 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     @Column(name = "type", columnDefinition = "ENUM('PAYMENT','FINE')", nullable = false)
     private Type type;
-    @OneToOne
-    @JoinColumn(name = "rental_id")
-    private Rental rental;
+    @Column(name = "rental_id")
+    private Long rentalId;
     @Column(name = "session_url", length = 500)
     private String sessionUrl;
     @Column(name = "receipt_url")
@@ -47,6 +44,7 @@ public class Payment {
         PENDING,
         PAID
     }
+
     public enum Type {
         PAYMENT,
         FINE
