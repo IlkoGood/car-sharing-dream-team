@@ -40,7 +40,9 @@ public class PaymentController {
                                                    @RequestBody PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
         Rental rental = rentalService.getById(payment.getRental().getId());
-        accessService.checkUserAccess(authentication, rental.getUser().getId());
+        if (accessService.checkUserAccess(authentication, rental.getUser().getId())) {
+            throw new RuntimeException("You do not have access to this data");
+        }
         Car car = carService.getById(rental.getCar().getId());
         payment = paymentService.createPaymentSession(payment, rental, car);
         return responseDtoMapper.mapToDto(paymentService.save(payment));
@@ -49,7 +51,9 @@ public class PaymentController {
     @GetMapping
     public List<PaymentResponseDto> getPaymentByUserId(Authentication authentication,
                                                 @RequestParam(required = false) Long userId) {
-        accessService.checkUserAccess(authentication, userId);
+        if (accessService.checkUserAccess(authentication, userId)) {
+            throw new RuntimeException("You do not have access to this data");
+        }
         List<Payment> payments = userId == null ? paymentService.getAll()
                 : paymentService.getByUserId(userId);
         return payments.stream()
