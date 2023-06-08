@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,14 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment createPaymentSession(Payment payment, Rental rental, Car car) {
+        Optional<Payment> checkExistPayment =
+                paymentRepository.findPaymentByRental_Id(rental.getId());
+        System.out.println(checkExistPayment);
+        if (checkExistPayment.isPresent()) {
+            throw new RuntimeException("Payment[id: "
+                    + checkExistPayment.get().getId() + "] with rental id: '"
+                    + rental.getId() + "' has already exist!");
+        }
         BigDecimal moneyToPay = this.calculatePayment(rental, car);
         BigDecimal moneyToFine = this.calculateFine(rental, car);
         if (moneyToFine.doubleValue() > 0) {
