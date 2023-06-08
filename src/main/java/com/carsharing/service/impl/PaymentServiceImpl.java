@@ -56,11 +56,13 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment createPaymentSession(Payment payment, Rental rental, Car car) {
         Optional<Payment> checkExistPayment =
                 paymentRepository.findPaymentByRentalId(rental.getId());
-        System.out.println(checkExistPayment);
         if (checkExistPayment.isPresent()) {
             throw new RuntimeException("Payment[id: "
                     + checkExistPayment.get().getId() + "] with rental id: '"
                     + rental.getId() + "' has already exist!");
+        }
+        if (rental.getActualReturnDate() == null) {
+            throw new RuntimeException("Rental[id: " + rental.getId() + "] is still active!");
         }
         BigDecimal moneyToPay = this.calculatePayment(rental, car);
         BigDecimal moneyToFine = this.calculateFine(rental, car);
