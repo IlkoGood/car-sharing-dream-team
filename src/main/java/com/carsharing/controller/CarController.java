@@ -6,6 +6,9 @@ import com.carsharing.dto.request.CarRequestDto;
 import com.carsharing.dto.response.CarResponseDto;
 import com.carsharing.model.Car;
 import com.carsharing.service.CarService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -29,19 +32,41 @@ public class CarController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('MANAGER')")
-    public CarResponseDto create(@RequestBody CarRequestDto carRequestDto) {
+    @Operation(summary = "Add car", description = "Create a new car entry in the system")
+    public CarResponseDto create(@Parameter(schema = @Schema(type = "String",
+            defaultValue = "{\n"
+                    + "    \"model\":\"Camry\",\n"
+                    + "    \"brand\":\"Toyota\",\n"
+                    + "    \"type\":\"UNIVERSAL\",\n"
+                    + "    \"inventory\":10,\n"
+                    + "    \"dailyFee\":200\n"
+                    + "}"))@RequestBody CarRequestDto carRequestDto) {
         return responseDtoMapper.mapToDto(carService
                 .save(requestDtoMapper.mapToModel(carRequestDto)));
     }
 
     @GetMapping("/{id}")
-    public CarResponseDto get(@PathVariable Long id) {
+    @Operation(summary = "Get car by id", description = "Retrieve the car information by its id")
+    public CarResponseDto get(@Parameter(description = "Car id", example = "1")
+                                  @PathVariable Long id) {
         return responseDtoMapper.mapToDto(carService.getById(id));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('MANAGER')")
-    public CarResponseDto update(@PathVariable Long id, @RequestBody CarRequestDto requestDto) {
+    @Operation(summary = "Update car by id",
+            description = "Update car information by providing the car id")
+    public CarResponseDto update(@Parameter(description = "Car id", example = "1")
+                                     @PathVariable Long id,
+                                 @Parameter(schema = @Schema(type = "String",
+                                         defaultValue = "{\n"
+                                                 + "    \"model\":\"Camry\",\n"
+                                                 + "    \"brand\":\"Toyota\",\n"
+                                                 + "    \"type\":\"UNIVERSAL\",\n"
+                                                 + "    \"inventory\":10,\n"
+                                                 + "    \"dailyFee\":300\n"
+                                                 + "}"))
+                                 @RequestBody CarRequestDto requestDto) {
         Car car = requestDtoMapper.mapToModel(requestDto);
         car.setId(id);
         Car updateCar = carService.update(car);
@@ -50,11 +75,13 @@ public class CarController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('MANAGER')")
-    void delete(@PathVariable Long id) {
+    @Operation(summary = "Delete car by id", description = "Delete car by id")
+    void delete(@Parameter(description = "Car id", example = "1")@PathVariable Long id) {
         carService.delete(id);
     }
 
     @GetMapping
+    @Operation(summary = "Get all car", description = "List of all car")
     public List<CarResponseDto> getAll() {
         return carService.getAll().stream()
                 .map(responseDtoMapper::mapToDto)

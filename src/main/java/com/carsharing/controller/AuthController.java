@@ -8,6 +8,9 @@ import com.carsharing.dto.response.UserResponseDto;
 import com.carsharing.exception.AuthenticationException;
 import com.carsharing.model.User;
 import com.carsharing.security.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +27,28 @@ public class AuthController {
     private UserMapper userMapper;
 
     @PostMapping("/register")
-    public UserResponseDto register(@RequestBody @Valid UserRegistrationDto userRequestDto) {
+    @Operation(summary = "Data for registration", description = "This endpoint allows users"
+            + " to register a new account")
+    public UserResponseDto register(@Parameter(schema = @Schema(type = "String",
+            defaultValue = "{\n"
+                    + "    \"email\":\"alice@gmail.com\", \n"
+                    + "    \"password\":\"alice12345\", \n"
+                    + "    \"repeatPassword\":\"alice12345\", \n"
+                    + "    \"firstName\":\"Alice\", \n"
+                    + "    \"lastName\":\"Alicon\"\n"
+                    + "}"))@RequestBody @Valid UserRegistrationDto userRequestDto) {
         User user = authService.register(userRequestDto.getEmail(), userRequestDto.getPassword());
         return userMapper.mapToDto(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> authenticate(@RequestBody @Valid UserLoginDto loginDto)
+    @Operation(summary = "User authentication",
+            description = "Authenticates a user and returns an access token")
+    public ResponseEntity<JwtAuthResponse> authenticate(@Parameter(schema = @Schema(
+            type = "String", defaultValue = "{\n"
+                    + "    \"email\":\"admin@gmail.com\",\n"
+                    + "    \"password\":\"admin12345\"\n"
+                    + "}"))@RequestBody @Valid UserLoginDto loginDto)
             throws AuthenticationException {
         String token = authService.login(loginDto.getEmail(), loginDto.getPassword());
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
