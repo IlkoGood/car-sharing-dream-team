@@ -11,6 +11,9 @@ import com.carsharing.security.AccessService;
 import com.carsharing.service.CarService;
 import com.carsharing.service.PaymentService;
 import com.carsharing.service.RentalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -36,7 +39,13 @@ public class PaymentController {
     private final ResponseDtoMapper<PaymentResponseDto, Payment> responseDtoMapper;
 
     @PostMapping
+    @Operation(summary = "Create payment", description = "Endpoint for creating a payment")
     public PaymentResponseDto createPaymentSession(Authentication authentication,
+                                                   @Parameter(schema = @Schema(type = "String",
+                                                           defaultValue = "{\n"
+                                                                   + "    \"rentalId\":\"1\",\n"
+                                                                   + "    \"type\":\"PAYMENT\"\n"
+                                                                   + "}"))
                                                    @RequestBody PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
         Rental rental = rentalService.getById(payment.getRentalId());
@@ -49,8 +58,11 @@ public class PaymentController {
     }
 
     @GetMapping
-    public List<PaymentResponseDto> getPaymentByUserId(Authentication authentication,
-                                                @RequestParam(required = false) Long userId) {
+    @Operation(summary = "Get payment by user id ",
+            description = "Retrieve the payment information for a specific user")
+    public List<PaymentResponseDto> getPaymentByUserId(@Parameter(description = "User id",
+            example = "1") @RequestParam(required = false) Long userId,
+                                                       Authentication authentication) {
         if (accessService.checkUserAccess(authentication, userId)) {
             throw new RuntimeException("You do not have access to this data");
         }
@@ -62,6 +74,8 @@ public class PaymentController {
     }
 
     @GetMapping("success/{id}")
+    @Operation(summary = "Payment success page",
+            description = "Custom description for payment success page")
     public RedirectView getSucceedRedirection(@PathVariable Long id) {
         Payment payment = paymentService.getById(id);
         payment.setReceiptUrl(paymentService.getReceiptUrl(payment.getSessionId()));
@@ -71,6 +85,8 @@ public class PaymentController {
     }
 
     @GetMapping("cancel/{id}")
+    @Operation(summary = "Payment cancel page",
+            description = "Custom description for payment cancel page")
     public RedirectView getCanceledRedirection(@PathVariable Long id) {
         return new RedirectView(paymentService.getById(id).getSessionUrl());
     }
