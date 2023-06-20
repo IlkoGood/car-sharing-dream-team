@@ -42,10 +42,11 @@ public class PaymentController {
     @Operation(summary = "Create payment", description = "Endpoint for creating a payment")
     public PaymentResponseDto createPaymentSession(Authentication authentication,
                                                    @Parameter(schema = @Schema(type = "String",
-                                                           defaultValue = "{\n"
-                                                                   + "    \"rentalId\":\"1\",\n"
-                                                                   + "    \"type\":\"PAYMENT\"\n"
-                                                                   + "}"))
+                                                           defaultValue = """
+                                                                   {
+                                                                       "rentalId":"1",
+                                                                       "type":"PAYMENT"
+                                                                   }"""))
                                                    @RequestBody PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
         Rental rental = rentalService.getById(payment.getRentalId());

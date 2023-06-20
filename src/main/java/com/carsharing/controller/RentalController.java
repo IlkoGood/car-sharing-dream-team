@@ -35,12 +35,13 @@ public class RentalController {
     @PostMapping
     @Operation(summary = "Add rental", description = "Create a new rental record")
     public RentalResponseDto create(@Parameter(schema = @Schema(type = "String",
-            defaultValue = "{\n"
-                    + "    \"rentalDate\":\"2023-05-29T00:00:00.000Z\", \n"
-                    + "    \"returnDate\":\"2023-05-30T00:00:00.000Z\", \n"
-                    + "    \"carId\":1, \n"
-                    + "    \"userId\":1 \n"
-                    + "}"))@RequestBody RentalRequestDto requestDto,
+            defaultValue = """
+                    {
+                        "rentalDate":"2023-05-29T00:00:00.000Z",\s
+                        "returnDate":"2023-05-30T00:00:00.000Z",\s
+                        "carId":1,\s
+                        "userId":1\s
+                    }"""))@RequestBody RentalRequestDto requestDto,
                                     Authentication authentication) {
         Rental rental = requestDtoMapper.mapToModel(requestDto);
         if (accessService.checkUserAccess(authentication, rental.getUserId())) {
