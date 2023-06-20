@@ -27,15 +27,9 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public void delete(Rental rental) {
-        rentalRepository.delete(rental);
-    }
-
-    @Override
     public Rental getById(Long id) {
         return rentalRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Can`t find rental by id: " + id)
-        );
+                () -> new NoSuchElementException("Can`t find rental by id: " + id));
     }
 
     @Override

@@ -54,9 +54,7 @@ public class PaymentController {
         if (accessService.checkUserAccess(authentication, userId)) {
             throw new RuntimeException("You do not have access to this data");
         }
-        List<Payment> payments = userId == null ? paymentService.getAll()
-                : paymentService.getByUserId(userId);
-        return payments.stream()
+        return paymentService.getByUserId(userId).stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }

@@ -91,15 +91,6 @@ class UserControllerTest {
                 .body("role", Matchers.equalTo("CUSTOMER"));
     }
 
-    private User getDefaultUser() {
-        User user = new User();
-        user.setId(21L);
-        user.setEmail("test@test.com");
-        user.setPassword("password");
-        user.setRole(User.Role.MANAGER);
-        return user;
-    }
-
     private User getUpdatedUser() {
         User updatedUser = new User();
         updatedUser.setId(defaultUser.getId());
@@ -109,5 +100,14 @@ class UserControllerTest {
         updatedUser.setFirstName("FirstName");
         updatedUser.setLastName("LastName");
         return updatedUser;
+    }
+
+    private User getDefaultUser() {
+        User user = new User();
+        user.setId(21L);
+        user.setEmail("test@test.com");
+        user.setPassword("password");
+        user.setRole(User.Role.MANAGER);
+        return user;
     }
 }
