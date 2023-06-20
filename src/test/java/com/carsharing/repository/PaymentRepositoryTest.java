@@ -1,9 +1,12 @@
 package com.carsharing.repository;
 
 import com.carsharing.model.Payment;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -12,16 +15,15 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@AllArgsConstructor
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PaymentRepositoryTest {
     @Container
     static MySQLContainer<?> database = new MySQLContainer<>("mysql:8")
-            .withDatabaseName("springboot")
-            .withUsername("springboot")
-            .withPassword("springboot");
+            .withDatabaseName("car-sharing")
+            .withUsername("root")
+            .withPassword("11111");
 
     @DynamicPropertySource
     static void setDatasourceProperties(DynamicPropertyRegistry propertyRegistry) {
@@ -30,10 +32,26 @@ class PaymentRepositoryTest {
         propertyRegistry.add("sptingboot.datasource.password", database::getPassword);
     }
 
-    private final PaymentRepository paymentRepository;
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Test
     void getPaymentsByUserId_Ok() {
-        //List<Payment> actual = paymentRepository.findPaymentsByUserId(1L);
+        List<Payment> expected = new ArrayList<>();
+        expected.add(paymentRepository.save(getPayment()));
+        List<Payment> actual = paymentRepository.findPaymentsByUserId(1L);
+        Assertions.assertEquals(expected, actual);
+    }
+
+    private Payment getPayment() {
+        Payment payment = new Payment();
+        payment.setId(1L);
+        payment.setType(Payment.Type.PAYMENT);
+        payment.setStatus(Payment.Status.PENDING);
+        payment.setRentalId(1L);
+        payment.setAmount(BigDecimal.valueOf(20));
+        payment.setSessionUrl("http://session-url.excemple");
+        payment.setSessionId("sessionIdExcemple#1");
+        return payment;
     }
 }
