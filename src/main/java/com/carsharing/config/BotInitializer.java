@@ -2,18 +2,16 @@ package com.carsharing.config;
 
 import com.carsharing.bot.TelegramCarSharingBot;
 import jakarta.annotation.PostConstruct;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Component
+@AllArgsConstructor
 public class BotInitializer {
     private final TelegramCarSharingBot telegramBot;
-
-    public BotInitializer(TelegramCarSharingBot telegramBot) {
-        this.telegramBot = telegramBot;
-    }
 
     @PostConstruct
     public void init() throws TelegramApiException {

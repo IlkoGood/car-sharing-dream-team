@@ -7,6 +7,9 @@ import com.carsharing.dto.response.RentalResponseDto;
 import com.carsharing.model.Rental;
 import com.carsharing.security.AccessService;
 import com.carsharing.service.RentalService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -30,8 +33,15 @@ public class RentalController {
     private final ResponseDtoMapper<RentalResponseDto, Rental> responseDtoMapper;
 
     @PostMapping
-    public RentalResponseDto create(Authentication authentication,
-                                    @RequestBody RentalRequestDto requestDto) {
+    @Operation(summary = "Add rental", description = "Create a new rental record")
+    public RentalResponseDto create(@Parameter(schema = @Schema(type = "String",
+            defaultValue = "{\n"
+                    + "    \"rentalDate\":\"2023-05-29T00:00:00.000Z\", \n"
+                    + "    \"returnDate\":\"2023-05-30T00:00:00.000Z\", \n"
+                    + "    \"carId\":1, \n"
+                    + "    \"userId\":1 \n"
+                    + "}"))@RequestBody RentalRequestDto requestDto,
+                                    Authentication authentication) {
         Rental rental = requestDtoMapper.mapToModel(requestDto);
         if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
@@ -41,8 +51,13 @@ public class RentalController {
     }
 
     @GetMapping
+    @Operation(summary = "Get rentals",
+            description = "Get rentals based on user ID and activity status")
     public List<RentalResponseDto> get(Authentication authentication,
+                                       @Parameter(description = "User id", example = "1")
                                        @RequestParam(required = false) Long userId,
+                                       @Parameter(description = "Flag indicating the activity status",
+                                               example = "true")
                                        @RequestParam(required = false) Boolean isActive) {
         if (accessService.checkUserAccess(authentication, userId)) {
             throw new RuntimeException("You do not have access to this data");
@@ -53,7 +68,10 @@ public class RentalController {
     }
 
     @GetMapping("/{id}")
-    public RentalResponseDto getById(Authentication authentication, @PathVariable Long id) {
+    @Operation(summary = "Get rental by id", description = "Retrieve rental details by id")
+    public RentalResponseDto getById(Authentication authentication,
+                                     @Parameter(description = "Rental id", example = "1")
+                                     @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
         if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
@@ -62,7 +80,11 @@ public class RentalController {
     }
 
     @PutMapping("/{id}/return")
-    public RentalResponseDto close(Authentication authentication, @PathVariable Long id) {
+    @Operation(summary = "Set actual return date ",
+            description = "Record actual return date for a rental")
+    public RentalResponseDto close(Authentication authentication,
+                                   @Parameter(description = "Rental id", example = "1")
+                                   @PathVariable Long id) {
         Rental rental = rentalService.getById(id);
         if (accessService.checkUserAccess(authentication, rental.getUserId())) {
             throw new RuntimeException("You do not have access to this data");
