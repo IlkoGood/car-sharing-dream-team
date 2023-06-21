@@ -1,7 +1,7 @@
 package com.carsharing.repository;
 
 import com.carsharing.model.Payment;
-import java.math.BigDecimal;
+import com.carsharing.util.UtilForTests;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class PaymentRepositoryTest {
+class PaymentRepositoryTest extends UtilForTests {
     @Container
     static MySQLContainer<?> database = new MySQLContainer<>("mysql:8")
             .withDatabaseName("car-sharing")
@@ -41,17 +41,5 @@ class PaymentRepositoryTest {
         expected.add(paymentRepository.save(getPayment()));
         List<Payment> actual = paymentRepository.findPaymentsByUserId(1L);
         Assertions.assertEquals(expected, actual);
-    }
-
-    private Payment getPayment() {
-        Payment payment = new Payment();
-        payment.setId(1L);
-        payment.setType(Payment.Type.PAYMENT);
-        payment.setStatus(Payment.Status.PENDING);
-        payment.setRentalId(1L);
-        payment.setAmount(BigDecimal.valueOf(20));
-        payment.setSessionUrl("http://session-url.excemple");
-        payment.setSessionId("sessionIdExcemple#1");
-        return payment;
     }
 }

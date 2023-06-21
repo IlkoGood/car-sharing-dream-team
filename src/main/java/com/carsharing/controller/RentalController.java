@@ -4,6 +4,7 @@ import com.carsharing.dto.mapper.RequestDtoMapper;
 import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.RentalRequestDto;
 import com.carsharing.dto.response.RentalResponseDto;
+import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.Rental;
 import com.carsharing.security.AccessService;
 import com.carsharing.service.RentalService;

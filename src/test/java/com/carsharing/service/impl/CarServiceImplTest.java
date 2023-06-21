@@ -4,8 +4,7 @@ import static org.mockito.Mockito.times;
 
 import com.carsharing.model.Car;
 import com.carsharing.repository.CarRepository;
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import com.carsharing.util.UtilForTests;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class CarServiceImplTest {
+class CarServiceImplTest extends UtilForTests {
     @InjectMocks
     private CarServiceImpl carService;
     @Mock
@@ -98,26 +97,5 @@ class CarServiceImplTest {
         Mockito.when(carRepository.findAll()).thenReturn(expected);
         List<Car> actual = carService.getAll();
         Assertions.assertEquals(expected, actual);
-    }
-
-    private Car getCar() {
-        Car car = new Car();
-        car.setId(1L);
-        car.setType(Car.Type.UNIVERSAL);
-        car.setBrand("BMW");
-        car.setModel("X8");
-        car.setInventory(5);
-        car.setDailyFee(BigDecimal.TEN);
-        return car;
-    }
-
-    private List<Car> getCars(int count) {
-        List<Car> cars = new ArrayList<>();
-        for (long i = 1; i <= count; i++) {
-            Car car = getCar();
-            car.setId(i);
-            cars.add(car);
-        }
-        return cars;
     }
 }

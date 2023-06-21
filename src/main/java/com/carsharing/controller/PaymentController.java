@@ -4,6 +4,7 @@ import com.carsharing.dto.mapper.RequestDtoMapper;
 import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.PaymentRequestDto;
 import com.carsharing.dto.response.PaymentResponseDto;
+import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.Car;
 import com.carsharing.model.Payment;
 import com.carsharing.model.Rental;
@@ -61,9 +62,9 @@ public class PaymentController {
     @GetMapping
     @Operation(summary = "Get payment by user id ",
             description = "Retrieve the payment information for a specific user")
-    public List<PaymentResponseDto> getPaymentByUserId(@Parameter(description = "User id",
-            example = "1") @RequestParam(required = false) Long userId,
-                                                       Authentication authentication) {
+    public List<PaymentResponseDto> getPaymentByUserId(
+            @Parameter(description = "User id", example = "1")
+            @RequestParam(required = false) Long userId, Authentication authentication) {
         if (accessService.checkUserAccess(authentication, userId)) {
             throw new RuntimeException("You do not have access to this data");
         }
@@ -73,8 +74,7 @@ public class PaymentController {
     }
 
     @GetMapping("success/{id}")
-    @Operation(summary = "Payment success page",
-            description = "Custom description for payment success page")
+    @Operation(summary = "Payment success page", description = "Custom description for payment success page")
     public RedirectView getSucceedRedirection(@PathVariable Long id) {
         Payment payment = paymentService.getById(id);
         payment.setReceiptUrl(paymentService.getReceiptUrl(payment.getSessionId()));

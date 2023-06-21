@@ -34,9 +34,7 @@ public class AuthController {
                     {
                         "email":"alice@gmail.com",\s
                         "password":"alice12345",\s
-                        "repeatPassword":"alice12345",\s
-                        "firstName":"Alice",\s
-                        "lastName":"Alicon"
+                        "repeatPassword":"alice12345"
                     }"""))@RequestBody @Valid UserRegistrationDto userRequestDto) {
         User user = authService.register(userRequestDto.getEmail(), userRequestDto.getPassword());
         return userMapper.mapToDto(user);

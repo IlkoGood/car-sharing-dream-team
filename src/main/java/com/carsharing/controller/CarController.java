@@ -42,8 +42,8 @@ public class CarController {
                         "inventory":10,
                         "dailyFee":200
                     }"""))@RequestBody CarRequestDto carRequestDto) {
-        return responseDtoMapper.mapToDto(carService
-                .save(requestDtoMapper.mapToModel(carRequestDto)));
+        Car car = carService.save(requestDtoMapper.mapToModel(carRequestDto));
+        return responseDtoMapper.mapToDto(car);
     }
 
     @GetMapping("/{id}")

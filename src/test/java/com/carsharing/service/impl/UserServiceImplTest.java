@@ -3,6 +3,7 @@ package com.carsharing.service.impl;
 import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.repository.UserRepository;
+import com.carsharing.util.UtilForTests;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceImplTest {
+class UserServiceImplTest extends UtilForTests {
     @InjectMocks
     private UserServiceImpl userService;
     @Mock
@@ -57,17 +58,5 @@ class UserServiceImplTest {
         String email = "test@test.com";
         Mockito.when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
         Assertions.assertThrows(DataProcessingException.class, () -> userService.findByEmail(email));
-    }
-
-    private User getUser() {
-        User user = new User();
-        user.setId(1L);
-        user.setEmail("test@test.com");
-        user.setPassword("encrypt(12345user)");
-        user.setRole(User.Role.MANAGER);
-        user.setChatId(1L);
-        user.setFirstName("firstName");
-        user.setLastName("lastName");
-        return user;
     }
 }
