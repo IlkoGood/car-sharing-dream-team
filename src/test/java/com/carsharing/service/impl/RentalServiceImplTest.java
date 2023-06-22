@@ -4,7 +4,7 @@ import com.carsharing.model.Car;
 import com.carsharing.model.Rental;
 import com.carsharing.repository.RentalRepository;
 import com.carsharing.service.CarService;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class RentalServiceImplTest extends UtilForTests {
+class RentalServiceImplTest extends UtilModelObjects {
     @InjectMocks
     private RentalServiceImpl rentalService;
     @Mock

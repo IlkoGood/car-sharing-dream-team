@@ -7,7 +7,7 @@ import com.carsharing.model.Rental;
 import com.carsharing.model.User;
 import com.carsharing.repository.PaymentRepository;
 import com.carsharing.service.UserService;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import com.stripe.model.checkout.Session;
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class PaymentServiceImplTest extends UtilForTests {
+class PaymentServiceImplTest extends UtilModelObjects {
     @InjectMocks
     private PaymentServiceImpl paymentService;
     @Mock

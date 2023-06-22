@@ -12,7 +12,7 @@ import com.carsharing.service.CarService;
 import com.carsharing.service.PaymentService;
 import com.carsharing.service.RentalService;
 import com.carsharing.service.UserService;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import java.util.List;
@@ -34,7 +34,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class PaymentControllerTest extends UtilForTests {
+class PaymentControllerTest extends UtilModelObjects {
     @MockBean
     private PaymentService paymentService;
     @MockBean

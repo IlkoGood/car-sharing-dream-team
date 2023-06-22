@@ -1,7 +1,7 @@
 package com.carsharing.repository;
 
 import com.carsharing.model.Payment;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +18,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class PaymentRepositoryTest extends UtilForTests {
+class PaymentRepositoryTest extends UtilModelObjects {
     @Container
     static MySQLContainer<?> database = new MySQLContainer<>("mysql:8")
             .withDatabaseName("car-sharing")
