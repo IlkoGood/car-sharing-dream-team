@@ -23,7 +23,7 @@ public class TelegramNotificationService implements NotificationService {
     private final TelegramCarSharingBot telegramCarSharingBot;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
-    private final RentalRepository rentalServiceRepository;
+    private final RentalRepository rentalRepository;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
   
     @Override
@@ -60,8 +60,9 @@ public class TelegramNotificationService implements NotificationService {
 
     @Scheduled(cron = "0 0 12 * * ?")
     public void sendOverdueRentalNotifications() {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        List<Rental> overdueRentals = rentalServiceRepository.findOverdueRentals(localDateTime);
+        LocalDateTime localDateTime = LocalDateTime.now().withNano(0);
+        List<Rental> overdueRentals = rentalRepository
+                .findRentalsByReturnDateBeforeAndActualReturnDateIsNull(localDateTime);
         if (overdueRentals.isEmpty()) {
             sendMessageToAllUsers();
         } else {
@@ -71,7 +72,7 @@ public class TelegramNotificationService implements NotificationService {
                         .orElseThrow(() -> new RuntimeException("Can't find user with id: "
                                 + rental.getUserId()));
                 sendMessage.setChatId(String.valueOf(user.getChatId()));
-                sendMessage.setText(generateOverdueRentalNotification(rental, localDateTime));
+                sendMessage.setText(generateOverdueRentalNotification(localDateTime));
                 try {
                     telegramCarSharingBot.execute(sendMessage);
                 } catch (TelegramApiException e) {
@@ -113,11 +114,10 @@ public class TelegramNotificationService implements NotificationService {
         }
     }
 
-    private String generateOverdueRentalNotification(Rental rental, LocalDateTime date) {
-        String text = "It looks like you've missed a rent payment on "
+    private String generateOverdueRentalNotification(LocalDateTime date) {
+        return "It looks like you've missed a rent payment on "
                 + date.format(formatter)
                 + ". Please make a payment at your earliest convenience to avoid any penalties. "
                 + "Thank you!";
-        return text;
     }
 }
