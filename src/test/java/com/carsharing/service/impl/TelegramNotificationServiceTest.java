@@ -6,7 +6,7 @@ import com.carsharing.model.User;
 import com.carsharing.repository.CarRepository;
 import com.carsharing.repository.RentalRepository;
 import com.carsharing.repository.UserRepository;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +23,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @ExtendWith(MockitoExtension.class)
-class TelegramNotificationServiceTest extends UtilForTests {
+class TelegramNotificationServiceTest extends UtilModelObjects {
     @InjectMocks
     private TelegramNotificationService telegramNotificationService;
     @Mock

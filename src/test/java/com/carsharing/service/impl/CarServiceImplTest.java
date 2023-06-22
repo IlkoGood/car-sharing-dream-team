@@ -4,7 +4,7 @@ import static org.mockito.Mockito.times;
 
 import com.carsharing.model.Car;
 import com.carsharing.repository.CarRepository;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class CarServiceImplTest extends UtilForTests {
+class CarServiceImplTest extends UtilModelObjects {
     @InjectMocks
     private CarServiceImpl carService;
     @Mock

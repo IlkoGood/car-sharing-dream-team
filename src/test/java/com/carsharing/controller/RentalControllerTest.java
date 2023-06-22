@@ -8,7 +8,7 @@ import com.carsharing.security.AccessService;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.RentalService;
 import com.carsharing.service.UserService;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import java.time.format.DateTimeFormatter;
@@ -31,7 +31,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class RentalControllerTest extends UtilForTests {
+class RentalControllerTest extends UtilModelObjects {
     @MockBean
     private RentalService rentalService;
     @MockBean

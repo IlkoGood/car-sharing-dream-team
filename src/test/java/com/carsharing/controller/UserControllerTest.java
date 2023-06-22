@@ -4,7 +4,7 @@ import com.carsharing.dto.request.UserRequestDto;
 import com.carsharing.model.User;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.UserService;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.hamcrest.Matchers;
@@ -22,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest extends UtilForTests {
+class UserControllerTest extends UtilModelObjects {
     @MockBean
     private UserService userService;
     @Autowired

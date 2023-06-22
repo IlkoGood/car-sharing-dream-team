@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UtilForTests {
+public class UtilModelObjects {
     private final User defaultUser = getUser();
     private final User defaultCustomer = getCustomer();
     private final Car defaultCar = getCar();

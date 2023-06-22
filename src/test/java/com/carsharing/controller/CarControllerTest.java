@@ -1,18 +1,15 @@
 package com.carsharing.controller;
 
 import com.carsharing.dto.mapper.impl.CarMapper;
-import com.carsharing.dto.request.CarRequestDto;
 import com.carsharing.dto.response.CarResponseDto;
 import com.carsharing.model.Car;
 import com.carsharing.model.User;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.CarService;
 import com.carsharing.service.UserService;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class CarControllerTest extends UtilForTests {
+class CarControllerTest extends UtilModelObjects {
     @MockBean
     private CarService carService;
     @MockBean

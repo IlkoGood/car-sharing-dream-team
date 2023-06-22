@@ -3,7 +3,7 @@ package com.carsharing.service.impl;
 import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.User;
 import com.carsharing.repository.UserRepository;
-import com.carsharing.util.UtilForTests;
+import com.carsharing.util.UtilModelObjects;
 import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class UserServiceImplTest extends UtilForTests {
+class UserServiceImplTest extends UtilModelObjects {
     @InjectMocks
     private UserServiceImpl userService;
     @Mock
