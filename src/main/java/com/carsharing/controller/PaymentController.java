@@ -4,7 +4,6 @@ import com.carsharing.dto.mapper.RequestDtoMapper;
 import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.PaymentRequestDto;
 import com.carsharing.dto.response.PaymentResponseDto;
-import com.carsharing.exception.DataProcessingException;
 import com.carsharing.model.Car;
 import com.carsharing.model.Payment;
 import com.carsharing.model.Rental;
@@ -43,11 +42,10 @@ public class PaymentController {
     @Operation(summary = "Create payment", description = "Endpoint for creating a payment")
     public PaymentResponseDto createPaymentSession(Authentication authentication,
                                                    @Parameter(schema = @Schema(type = "String",
-                                                           defaultValue = """
-                                                                   {
-                                                                       "rentalId":"1",
-                                                                       "type":"PAYMENT"
-                                                                   }"""))
+                                                           defaultValue = "{\n"
+                                                                          + "    \"rentalId\":\"1\",\n"
+                                                                          + "    \"type\":\"PAYMENT\"\n"
+                                                                          + "}"))
                                                    @RequestBody PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
         Rental rental = rentalService.getById(payment.getRentalId());
