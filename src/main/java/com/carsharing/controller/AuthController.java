@@ -30,12 +30,11 @@ public class AuthController {
     @Operation(summary = "Data for registration", description = "This endpoint allows users"
             + " to register a new account")
     public UserResponseDto register(@Parameter(schema = @Schema(type = "String",
-            defaultValue = """
-                    {
-                        "email":"alice@gmail.com",\s
-                        "password":"alice12345",\s
-                        "repeatPassword":"alice12345"
-                    }"""))@RequestBody @Valid UserRegistrationDto userRequestDto) {
+            defaultValue = "{\n"
+                           + "    \"email\":\"alice@gmail.com\", \n"
+                           + "    \"password\":\"alice12345\", \n"
+                           + "    \"repeatPassword\":\"alice12345\"\n"
+                           + "}")) @RequestBody @Valid UserRegistrationDto userRequestDto) {
         User user = authService.register(userRequestDto.getEmail(), userRequestDto.getPassword());
         return userMapper.mapToDto(user);
     }
@@ -44,11 +43,10 @@ public class AuthController {
     @Operation(summary = "User authentication",
             description = "Authenticates a user and returns an access token")
     public ResponseEntity<JwtAuthResponse> authenticate(@Parameter(schema = @Schema(
-            type = "String", defaultValue = """
-            {
-                "email":"admin@gmail.com",
-                "password":"admin12345"
-            }"""))@RequestBody @Valid UserLoginDto loginDto)
+            type = "String", defaultValue = "{\n"
+                                            + "    \"email\":\"admin@gmail.com\",\n"
+                                            + "    \"password\":\"admin12345\"\n"
+                                            + "}")) @RequestBody @Valid UserLoginDto loginDto)
             throws AuthenticationException {
         String token = authService.login(loginDto.getEmail(), loginDto.getPassword());
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
