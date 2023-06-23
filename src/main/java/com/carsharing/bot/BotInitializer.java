@@ -1,4 +1,4 @@
-package com.carsharing.config;
+package com.carsharing.bot;
 
 import com.carsharing.bot.TelegramCarSharingBot;
 import jakarta.annotation.PostConstruct;
