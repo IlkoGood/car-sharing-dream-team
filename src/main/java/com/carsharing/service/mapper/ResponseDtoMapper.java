@@ -1,4 +1,4 @@
-package com.carsharing.dto.mapper;
+package com.carsharing.service.mapper;
 
 public interface ResponseDtoMapper<D, T> {
     D mapToDto(T t);
