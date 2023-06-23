@@ -14,6 +14,7 @@ import com.carsharing.service.RentalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -46,7 +47,7 @@ public class PaymentController {
                                                                           + "    \"rentalId\":\"1\",\n"
                                                                           + "    \"type\":\"PAYMENT\"\n"
                                                                           + "}"))
-                                                   @RequestBody PaymentRequestDto dto) {
+                                                   @RequestBody @Valid PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
         Rental rental = rentalService.getById(payment.getRentalId());
         if (accessService.checkUserAccess(authentication, rental.getUserId())) {

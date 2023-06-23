@@ -9,6 +9,7 @@ import com.carsharing.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class CarController {
                            + "    \"type\":\"UNIVERSAL\",\n"
                            + "    \"inventory\":10,\n"
                            + "    \"dailyFee\":200\n"
-                           + "}")) @RequestBody CarRequestDto carRequestDto) {
+                           + "}")) @RequestBody @Valid CarRequestDto carRequestDto) {
         Car car = carService.save(requestDtoMapper.mapToModel(carRequestDto));
         return responseDtoMapper.mapToDto(car);
     }
@@ -48,7 +49,7 @@ public class CarController {
     @GetMapping("/{id}")
     @Operation(summary = "Get car by id", description = "Retrieve the car information by its id")
     public CarResponseDto get(@Parameter(description = "Car id", example = "1")
-                                  @PathVariable Long id) {
+                              @PathVariable Long id) {
         return responseDtoMapper.mapToDto(carService.getById(id));
     }
 
@@ -57,7 +58,7 @@ public class CarController {
     @Operation(summary = "Update car by id",
             description = "Update car information by providing the car id")
     public CarResponseDto update(@Parameter(description = "Car id", example = "1")
-                                     @PathVariable Long id,
+                                 @PathVariable Long id,
                                  @Parameter(schema = @Schema(type = "String",
                                          defaultValue = "{\n"
                                                         + "    \"model\":\"Camry\",\n"
@@ -66,7 +67,7 @@ public class CarController {
                                                         + "    \"inventory\":10,\n"
                                                         + "    \"dailyFee\":300\n"
                                                         + "}"))
-                                 @RequestBody CarRequestDto requestDto) {
+                                 @RequestBody @Valid CarRequestDto requestDto) {
         Car car = requestDtoMapper.mapToModel(requestDto);
         car.setId(id);
         Car updateCar = carService.update(car);
@@ -76,7 +77,8 @@ public class CarController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('MANAGER')")
     @Operation(summary = "Delete car by id", description = "Delete car by id")
-    void delete(@Parameter(description = "Car id", example = "1")@PathVariable Long id) {
+    void delete(@Parameter(description = "Car id", example = "1")
+                @PathVariable Long id) {
         carService.delete(id);
     }
 
