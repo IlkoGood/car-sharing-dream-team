@@ -35,14 +35,14 @@ public class CarController {
     @Operation(summary = "Add car", description = "Create a new car entry in the system")
     public CarResponseDto create(@Parameter(schema = @Schema(type = "String",
             defaultValue = "{\n"
-                    + "    \"model\":\"Camry\",\n"
-                    + "    \"brand\":\"Toyota\",\n"
-                    + "    \"type\":\"UNIVERSAL\",\n"
-                    + "    \"inventory\":10,\n"
-                    + "    \"dailyFee\":200\n"
-                    + "}"))@RequestBody CarRequestDto carRequestDto) {
-        return responseDtoMapper.mapToDto(carService
-                .save(requestDtoMapper.mapToModel(carRequestDto)));
+                           + "    \"model\":\"Camry\",\n"
+                           + "    \"brand\":\"Toyota\",\n"
+                           + "    \"type\":\"UNIVERSAL\",\n"
+                           + "    \"inventory\":10,\n"
+                           + "    \"dailyFee\":200\n"
+                           + "}")) @RequestBody CarRequestDto carRequestDto) {
+        Car car = carService.save(requestDtoMapper.mapToModel(carRequestDto));
+        return responseDtoMapper.mapToDto(car);
     }
 
     @GetMapping("/{id}")
@@ -60,12 +60,12 @@ public class CarController {
                                      @PathVariable Long id,
                                  @Parameter(schema = @Schema(type = "String",
                                          defaultValue = "{\n"
-                                                 + "    \"model\":\"Camry\",\n"
-                                                 + "    \"brand\":\"Toyota\",\n"
-                                                 + "    \"type\":\"UNIVERSAL\",\n"
-                                                 + "    \"inventory\":10,\n"
-                                                 + "    \"dailyFee\":300\n"
-                                                 + "}"))
+                                                        + "    \"model\":\"Camry\",\n"
+                                                        + "    \"brand\":\"Toyota\",\n"
+                                                        + "    \"type\":\"UNIVERSAL\",\n"
+                                                        + "    \"inventory\":10,\n"
+                                                        + "    \"dailyFee\":300\n"
+                                                        + "}"))
                                  @RequestBody CarRequestDto requestDto) {
         Car car = requestDtoMapper.mapToModel(requestDto);
         car.setId(id);

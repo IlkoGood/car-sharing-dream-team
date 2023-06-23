@@ -4,6 +4,7 @@ import com.carsharing.dto.request.UserRequestDto;
 import com.carsharing.model.User;
 import com.carsharing.security.jwt.JwtTokenProvider;
 import com.carsharing.service.UserService;
+import com.carsharing.util.UtilModelObjects;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.hamcrest.Matchers;
@@ -21,7 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+class UserControllerTest extends UtilModelObjects {
     @MockBean
     private UserService userService;
     @Autowired
@@ -89,25 +90,5 @@ class UserControllerTest {
                 .then()
                 .statusCode(200)
                 .body("role", Matchers.equalTo("CUSTOMER"));
-    }
-
-    private User getDefaultUser() {
-        User user = new User();
-        user.setId(21L);
-        user.setEmail("test@test.com");
-        user.setPassword("password");
-        user.setRole(User.Role.MANAGER);
-        return user;
-    }
-
-    private User getUpdatedUser() {
-        User updatedUser = new User();
-        updatedUser.setId(defaultUser.getId());
-        updatedUser.setEmail(defaultUser.getEmail());
-        updatedUser.setPassword(defaultUser.getPassword());
-        updatedUser.setRole(defaultUser.getRole());
-        updatedUser.setFirstName("FirstName");
-        updatedUser.setLastName("LastName");
-        return updatedUser;
     }
 }

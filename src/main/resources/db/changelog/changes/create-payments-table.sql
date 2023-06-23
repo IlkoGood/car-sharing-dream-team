@@ -10,6 +10,6 @@ CREATE TABLE IF NOT EXISTS `payments` (
                             `status` ENUM('PAID','PENDING') DEFAULT NULL,
                             `type` ENUM('FINE','PAYMENT') DEFAULT NULL,
                             PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --rollback DROP TABLE payments;

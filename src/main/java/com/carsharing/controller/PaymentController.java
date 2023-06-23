@@ -43,9 +43,9 @@ public class PaymentController {
     public PaymentResponseDto createPaymentSession(Authentication authentication,
                                                    @Parameter(schema = @Schema(type = "String",
                                                            defaultValue = "{\n"
-                                                                   + "    \"rentalId\":\"1\",\n"
-                                                                   + "    \"type\":\"PAYMENT\"\n"
-                                                                   + "}"))
+                                                                          + "    \"rentalId\":\"1\",\n"
+                                                                          + "    \"type\":\"PAYMENT\"\n"
+                                                                          + "}"))
                                                    @RequestBody PaymentRequestDto dto) {
         Payment payment = requestDtoMapper.mapToModel(dto);
         Rental rental = rentalService.getById(payment.getRentalId());
@@ -60,22 +60,19 @@ public class PaymentController {
     @GetMapping
     @Operation(summary = "Get payment by user id ",
             description = "Retrieve the payment information for a specific user")
-    public List<PaymentResponseDto> getPaymentByUserId(@Parameter(description = "User id",
-            example = "1") @RequestParam(required = false) Long userId,
-                                                       Authentication authentication) {
+    public List<PaymentResponseDto> getPaymentByUserId(
+            @Parameter(description = "User id", example = "1")
+            @RequestParam(required = false) Long userId, Authentication authentication) {
         if (accessService.checkUserAccess(authentication, userId)) {
             throw new RuntimeException("You do not have access to this data");
         }
-        List<Payment> payments = userId == null ? paymentService.getAll()
-                : paymentService.getByUserId(userId);
-        return payments.stream()
+        return paymentService.getByUserId(userId).stream()
                 .map(responseDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("success/{id}")
-    @Operation(summary = "Payment success page",
-            description = "Custom description for payment success page")
+    @Operation(summary = "Payment success page", description = "Custom description for payment success page")
     public RedirectView getSucceedRedirection(@PathVariable Long id) {
         Payment payment = paymentService.getById(id);
         payment.setReceiptUrl(paymentService.getReceiptUrl(payment.getSessionId()));

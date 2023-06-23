@@ -31,25 +31,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public void delete(Payment payment) {
-        paymentRepository.delete(payment);
-    }
-
-    @Override
-    public List<Payment> getAll() {
-        return paymentRepository.findAll();
-    }
-
-    @Override
     public Payment getById(Long id) {
         return paymentRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Can`t find payment by id: " + id)
-        );
+                () -> new NoSuchElementException("Can`t find payment by id: " + id));
     }
 
     @Override
     public List<Payment> getByUserId(Long userId) {
-        return paymentRepository.findPaymentsByUserId(userId);
+        return userId == null ? paymentRepository.findAll()
+                : paymentRepository.findPaymentsByUserId(userId);
     }
 
     @Override

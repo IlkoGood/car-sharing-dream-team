@@ -9,6 +9,6 @@ CREATE TABLE IF NOT EXISTS `rentals` (
                            `car_id` BIGINT DEFAULT NULL,
                            `user_id` BIGINT DEFAULT NULL,
                            PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --rollback DROP TABLE rentals;

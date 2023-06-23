@@ -23,7 +23,7 @@ public class PaymentProviderImpl implements PaymentProvider {
     private static final Long STRIPE_PRICE_MULTIPLIER = 100L;
     @Value("${stripe.secret}")
     private String secretKey;
-    @Value("${stripe.domen}")
+    @Value("${app.domen}")
     private String domen;
 
     public Session createPaymentSession(BigDecimal payment,

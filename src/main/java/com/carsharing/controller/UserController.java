@@ -41,12 +41,12 @@ public class UserController {
             description = "Modify the user's personal details")
     public UserResponseDto updateUser(@Parameter(schema = @Schema(type = "String",
             defaultValue = "{\n"
-                    + "    \"email\":\"admin@gmail.com\", \n"
-                    + "    \"password\":\"admin12345\", \n"
-                    + "    \"repeatPassword\":\"admin12345\", \n"
-                    + "    \"firstName\":\"Alice\", \n"
-                    + "    \"lastName\":\"Jhonson\"\n"
-                    + "}")) @RequestBody @Valid UserRequestDto requestDto,
+                           + "    \"email\":\"admin@gmail.com\", \n"
+                           + "    \"password\":\"admin12345\", \n"
+                           + "    \"repeatPassword\":\"admin12345\", \n"
+                           + "    \"firstName\":\"Alice\", \n"
+                           + "    \"lastName\":\"Jhonson\"\n"
+                           + "}")) @RequestBody @Valid UserRequestDto requestDto,
                                       Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
         user.setFirstName(requestDto.getFirstName());
