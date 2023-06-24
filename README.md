@@ -1,5 +1,6 @@
 # Car Sharing Service
 ![](C:\Users\nadia\Desktop\b9f4062c-3831-4f1a-bf1a-3a79b8042257.jfif)
+<img src="https://i2.paste.pics/OMYLR.png">
 
 Car Sharing Service is a web application that provides a comprehensive solution for car rental needs. Users can easily register and log in using their credentials they can easily browse and book available cars based on their preferences. Role-based authorization is implemented, allowing administrators and regular users to access different functionalities. To ensure the security of transactions, our service integrates with the reliable Stripe payment system. Users can make payments conveniently and securely using Stripe, this integration guarantees a smooth and trustworthy payment process. Furthermore, we have implemented a notification system through a Telegram bot. Users can stay updated on their rental status, receive payment reminders, and be notified of any changes in the condition of the cars they have rented. This feature enhances communication and provides users with real-time information. Experience the convenience, reliability, and security offered by the Car Sharing Service.
 

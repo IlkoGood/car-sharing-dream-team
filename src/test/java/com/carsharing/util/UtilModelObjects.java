@@ -16,6 +16,7 @@ import com.stripe.model.Charge;
 import com.stripe.model.checkout.Session;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class UtilModelObjects {
     private final Car defaultCar = getCar();
     private final Rental defaultRental = getRental();
     private final Payment defaultPayment = getPayment();
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
     protected User getUser() {
         User user = new User();
@@ -178,11 +180,11 @@ public class UtilModelObjects {
 
     protected RentalRequestDto getRentalRequestDto() {
         RentalRequestDto dto = new RentalRequestDto();
-        dto.setRentalDate(defaultRental.getRentalDate());
-        dto.setReturnDate(defaultRental.getReturnDate());
+        dto.setRentalDate(defaultRental.getRentalDate().format(formatter));
+        dto.setReturnDate(defaultRental.getReturnDate().format(formatter));
         dto.setActualReturnDate(defaultRental.getActualReturnDate());
-        dto.setUserId(defaultRental.getUserId());
-        dto.setCarId(defaultRental.getCarId());
+        dto.setUserId(defaultRental.getUserId().toString());
+        dto.setCarId(defaultRental.getCarId().toString());
         return dto;
     }
 
@@ -211,8 +213,8 @@ public class UtilModelObjects {
 
     protected PaymentRequestDto getPaymentRequestDto() {
         PaymentRequestDto dto = new PaymentRequestDto();
-        dto.setRentalId(defaultPayment.getRentalId());
-        dto.setType(defaultPayment.getType());
+        dto.setRentalId(defaultPayment.getRentalId().toString());
+        dto.setType(defaultPayment.getType().name());
         return dto;
     }
 
@@ -220,8 +222,8 @@ public class UtilModelObjects {
         CarRequestDto dto = new CarRequestDto();
         dto.setBrand(defaultCar.getBrand());
         dto.setModel(defaultCar.getModel());
-        dto.setType(defaultCar.getType());
-        dto.setInventory(defaultCar.getInventory());
+        dto.setType(defaultCar.getType().name());
+        dto.setInventory(String.valueOf(defaultCar.getInventory()));
         dto.setDailyFee(defaultCar.getDailyFee());
         return dto;
     }

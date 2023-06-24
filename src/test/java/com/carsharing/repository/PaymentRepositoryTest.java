@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -17,30 +18,33 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+@org.springframework.core.annotation.Order(1)
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class PaymentRepositoryTest extends UtilModelObjects {
     @Container
     static MySQLContainer<?> database = new MySQLContainer<>("mysql:8")
-            .withDatabaseName("springboot")
-            .withUsername("springboot")
-            .withPassword("springboot");
+            .withDatabaseName("test_payment_repo")
+            .withUsername("username")
+            .withPassword("password");
 
     @DynamicPropertySource
     static void setDatasourceProperties(DynamicPropertyRegistry propertyRegistry) {
-        propertyRegistry.add("springboot.datasource.url", database::getJdbcUrl);
-        propertyRegistry.add("sptingboot.datasource.username", database::getUsername);
-        propertyRegistry.add("sptingboot.datasource.password", database::getPassword);
+        propertyRegistry.add("spring.datasource.url", database::getJdbcUrl);
+        propertyRegistry.add("spring.datasource.username", database::getUsername);
+        propertyRegistry.add("spring.datasource.password", database::getPassword);
     }
 
     @Autowired
     private PaymentRepository paymentRepository;
 
+    @Order(1)
     @Test
     @Sql("/scripts/init_data_for_test_payment_repo.sql")
     void getPaymentsByUserId_Ok() {
         Long id = 50L;
+        System.out.println(paymentRepository.findById(id).get());
         List<Payment> expected = new ArrayList<>();
         Payment payment = getPayment();
         payment.setId(id);

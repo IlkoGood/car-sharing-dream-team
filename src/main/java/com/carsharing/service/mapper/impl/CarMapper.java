@@ -15,8 +15,8 @@ public class CarMapper implements ResponseDtoMapper<CarResponseDto, Car>,
         Car car = new Car();
         car.setModel(dto.getModel());
         car.setBrand(dto.getBrand());
-        car.setType(dto.getType());
-        car.setInventory(dto.getInventory());
+        car.setType(Car.Type.valueOf(dto.getType()));
+        car.setInventory(Integer.parseInt(dto.getInventory()));
         car.setDailyFee(dto.getDailyFee());
         return car;
     }

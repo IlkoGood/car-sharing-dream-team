@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import lombok.Data;
 
 @Data
-public class RentalResponseDto {
+public final class RentalResponseDto {
     private Long id;
     private LocalDateTime rentalDate;
     private LocalDateTime returnDate;
