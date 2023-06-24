@@ -52,7 +52,6 @@ class UserControllerTest extends UtilModelObjects {
     @Test
     void updateUser_ok() {
         Mockito.when(userService.findByEmail("test@test.com")).thenReturn(defaultUser);
-
         User updatedUser = getUpdatedUser();
         Mockito.when(userService.save(defaultUser)).thenReturn(updatedUser);
 

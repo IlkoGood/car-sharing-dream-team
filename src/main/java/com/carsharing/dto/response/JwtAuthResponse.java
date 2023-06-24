@@ -3,6 +3,6 @@ package com.carsharing.dto.response;
 import lombok.Data;
 
 @Data
-public class JwtAuthResponse {
+public final class JwtAuthResponse {
     private String accessToken;
 }

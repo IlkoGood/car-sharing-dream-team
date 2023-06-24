@@ -1,5 +1,5 @@
 INSERT INTO users (chat_id, id, email, first_name, last_name, password, role)
-VALUES (50, 50, 'admin50@gmail.com', 'Name', 'Surname', 'password', 'MANAGER');
+VALUES (50, 50, 'test@gmail.com', 'name', 'lastName', 'password', 'MANAGER');
 
 INSERT INTO cars (id, model, brand, type, inventory, daily_fee)
 VALUES (50, 'X8', 'BMW', 'UNIVERSAL', 5, 30);

@@ -29,8 +29,8 @@ public class PaymentMapper implements ResponseDtoMapper<PaymentResponseDto, Paym
     public Payment mapToModel(PaymentRequestDto dto) {
         Payment payment = new Payment();
         payment.setStatus(Payment.Status.PENDING);
-        payment.setType(dto.getType());
-        payment.setRentalId(dto.getRentalId());
+        payment.setType(Payment.Type.valueOf(dto.getType()));
+        payment.setRentalId(Long.parseLong(dto.getRentalId()));
         return payment;
     }
 }

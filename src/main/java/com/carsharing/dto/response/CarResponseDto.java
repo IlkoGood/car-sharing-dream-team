@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class CarResponseDto {
+public final class CarResponseDto {
     private Long id;
     private String model;
     private String brand;

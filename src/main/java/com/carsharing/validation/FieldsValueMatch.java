@@ -1,4 +1,4 @@
-package com.carsharing.lib;
+package com.carsharing.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

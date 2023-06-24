@@ -1,16 +1,19 @@
 package com.carsharing.dto.request;
 
 import com.carsharing.model.Payment;
-import jakarta.validation.constraints.Min;
+import com.carsharing.validation.IsEnum;
+import com.carsharing.validation.IsNumber;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 @Data
-public class PaymentRequestDto {
-    @Min(value = 1)
+public final class PaymentRequestDto {
     @NotNull
-    private Long rentalId;
-    @Enum
+    @IsNumber
+    @Positive
+    private String rentalId;
     @NotNull
-    private Payment.Type type;
+    @IsEnum(enumClazz = Payment.Type.class, message = "must be like [PAYMENT, FINE]")
+    private String type;
 }

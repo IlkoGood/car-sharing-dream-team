@@ -10,6 +10,7 @@ import com.carsharing.service.RentalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,7 @@ public class RentalController {
                            + "    \"returnDate\":\"2023-05-30T00:00:00.000Z\", \n"
                            + "    \"carId\":1, \n"
                            + "    \"userId\":1 \n"
-                           + "}")) @RequestBody RentalRequestDto requestDto,
+                           + "}")) @RequestBody @Valid RentalRequestDto requestDto,
                                     Authentication authentication) {
         Rental rental = requestDtoMapper.mapToModel(requestDto);
         if (accessService.checkUserAccess(authentication, rental.getUserId())) {

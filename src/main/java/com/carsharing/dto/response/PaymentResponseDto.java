@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
-public class PaymentResponseDto {
+public final class PaymentResponseDto {
     private Long id;
     private Payment.Status status;
     private Payment.Type type;

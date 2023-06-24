@@ -5,6 +5,7 @@ import com.carsharing.dto.mapper.ResponseDtoMapper;
 import com.carsharing.dto.request.RentalRequestDto;
 import com.carsharing.dto.response.RentalResponseDto;
 import com.carsharing.model.Rental;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,11 @@ public class RentalMapper implements RequestDtoMapper<RentalRequestDto, Rental>,
     @Override
     public Rental mapToModel(RentalRequestDto dto) {
         Rental rental = new Rental();
-        rental.setRentalDate(dto.getRentalDate());
-        rental.setReturnDate(dto.getReturnDate());
+        rental.setRentalDate(LocalDateTime.parse(dto.getRentalDate()));
+        rental.setReturnDate(LocalDateTime.parse(dto.getReturnDate()));
         rental.setActualReturnDate(dto.getActualReturnDate());
-        rental.setUserId(dto.getUserId());
-        rental.setCarId(dto.getCarId());
+        rental.setUserId(Long.valueOf(dto.getUserId()));
+        rental.setCarId(Long.valueOf(dto.getCarId()));
         return rental;
     }
 
