@@ -32,7 +32,7 @@ public class Payment {
     private Type type;
     @Column(name = "rental_id")
     private Long rentalId;
-    @Column(name = "session_url")
+    @Column(name = "session_url", length = 500)
     private String sessionUrl;
     @Column(name = "receipt_url")
     private String receiptUrl;

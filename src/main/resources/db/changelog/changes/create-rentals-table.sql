@@ -1,14 +1,15 @@
 --liquibase formatted sql
 --changeset <ilkogood>:<create-rentals-table>
 
-CREATE TABLE IF NOT EXISTS `rentals` (
-                           `id` BIGINT NOT NULL AUTO_INCREMENT,
-                           `actual_return_date` DATETIME(6) DEFAULT NULL,
-                           `rental_start_date` DATETIME(6) DEFAULT NULL,
-                           `rental_return_date` DATETIME(6) DEFAULT NULL,
-                           `car_id` BIGINT DEFAULT NULL,
-                           `user_id` BIGINT DEFAULT NULL,
-                           PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+create table if not exists rentals
+(
+    actual_return_date datetime(6) null,
+    car_id             bigint      null,
+    id                 bigint auto_increment
+    primary key,
+    rental_return_date datetime(6) null,
+    rental_start_date  datetime(6) null,
+    user_id            bigint      null
+    );
 
 --rollback DROP TABLE rentals;

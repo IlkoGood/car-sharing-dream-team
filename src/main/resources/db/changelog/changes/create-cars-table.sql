@@ -1,13 +1,14 @@
 --liquibase formatted sql
 --changeset <ilkogood>:<create-cars-table>
-CREATE TABLE IF NOT EXISTS `cars` (
-                        `id` BIGINT NOT NULL AUTO_INCREMENT,
-                        `model` VARCHAR(255) NOT NULL,
-                        `brand` VARCHAR(255) NOT NULL,
-                        `type` ENUM('HATCHBACK','SEDAN','SUV','UNIVERSAL') NOT NULL,
-                        `inventory` INT NOT NULL,
-                        `daily_fee` DECIMAL(38,2) NOT NULL,
-                        PRIMARY KEY (`id`)
-) DEFAULT CHARSET=utf8mb4;
+create table if not exists cars
+(
+    daily_fee decimal(38, 2)                                  not null,
+    inventory int                                             not null,
+    id        bigint auto_increment
+    primary key,
+    brand     varchar(255)                                    not null,
+    model     varchar(255)                                    not null,
+    type      enum ('HATCHBACK', 'SEDAN', 'SUV', 'UNIVERSAL') not null
+    );
 
 --rollback DROP TABLE cars;
