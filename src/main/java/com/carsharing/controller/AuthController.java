@@ -1,6 +1,6 @@
 package com.carsharing.controller;
 
-import com.carsharing.service.mapper.impl.UserMapper;
+import com.carsharing.dto.mapper.impl.UserMapper;
 import com.carsharing.dto.request.UserLoginDto;
 import com.carsharing.dto.request.UserRegistrationDto;
 import com.carsharing.dto.response.JwtAuthResponse;

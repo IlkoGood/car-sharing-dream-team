@@ -1,6 +1,5 @@
 package com.carsharing.bot;
 
-import com.carsharing.bot.TelegramCarSharingBot;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

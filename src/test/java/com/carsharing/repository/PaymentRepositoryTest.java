@@ -5,12 +5,14 @@ import com.carsharing.util.UtilModelObjects;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,7 +20,6 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@org.springframework.core.annotation.Order(1)
 @DataJpaTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -27,7 +28,8 @@ class PaymentRepositoryTest extends UtilModelObjects {
     static MySQLContainer<?> database = new MySQLContainer<>("mysql:8")
             .withDatabaseName("test_payment_repo")
             .withUsername("username")
-            .withPassword("password");
+            .withPassword("password")
+            .withInitScript("scripts/init_tables_for_test_payment_repo.sql");
 
     @DynamicPropertySource
     static void setDatasourceProperties(DynamicPropertyRegistry propertyRegistry) {
@@ -37,14 +39,22 @@ class PaymentRepositoryTest extends UtilModelObjects {
     }
 
     @Autowired
+    private TestEntityManager entityManager;
+    @Autowired
     private PaymentRepository paymentRepository;
 
-    @Order(1)
+    @BeforeEach
+    void setUp() {
+        entityManager.getEntityManager().getEntityManagerFactory()
+                .unwrap(SessionFactory.class)
+                .getProperties()
+                .put("hibernate.hbm2ddl.auto", "create-drop");
+    }
+
     @Test
     @Sql("/scripts/init_data_for_test_payment_repo.sql")
     void getPaymentsByUserId_Ok() {
         Long id = 50L;
-        System.out.println(paymentRepository.findById(id).get());
         List<Payment> expected = new ArrayList<>();
         Payment payment = getPayment();
         payment.setId(id);
