@@ -61,7 +61,6 @@ Car Sharing Service is a web application that provides a comprehensive solution 
 - Lombok
 - Maven `3.8.7`
 
-
 # How to run
 `REMARK! When starting the application, ADMIN already injected into the database, use it:`
 
